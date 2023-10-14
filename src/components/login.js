@@ -1,6 +1,14 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
+  const handleLogin = ()=> 
+  {
+   console.log('Login Admin');
+   navigate('/donor',{ replace: true })
+   
+ };
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center border rounded-xl bg-gray-50 p-4 min-h-32 justify-center ">
@@ -19,7 +27,7 @@ function Login() {
             placeholder="Password"
           />
         </div>
-        <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700">
+        <button onClick={handleLogin} className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700">
           Connect
         </button>
       </div>
