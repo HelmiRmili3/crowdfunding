@@ -1,6 +1,11 @@
 import React from "react";
+import NavBar from "./components/navBar";
 
 const Admin = () => {
-  return <h1 className="min-h-screen flex items-center justify-center" >Admin page</h1>;
+  return (
+    <>
+      <NavBar />
+    </>
+  );
 };
 export default Admin;

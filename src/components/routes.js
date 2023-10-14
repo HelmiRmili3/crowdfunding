@@ -12,16 +12,13 @@ function RoutesComponent() {
   return (
     <>
       <Routes>
-        
-        <Route path="/admin" element={<Admin/>}></Route>
-        <Route path="/association" element={<Association/>}></Route>
-        <Route path="/donor" element={<Donor/>}></Route>
-        <Route path="/evaluator" element={<Evaluator/>}></Route>
-
-        <Route exact  path="/" element={<Landing />}></Route>
+        <Route exact path="/" element={<Landing />}></Route>
         <Route path="/login" element={<Login />}></Route>
-        <Route element={<RequireAuth/>}>
-
+        <Route element={<RequireAuth />}>
+          <Route path="/admin" element={<Admin />}></Route>
+          <Route path="/association" element={<Association />}></Route>
+          <Route path="/donor" element={<Donor />}></Route>
+          <Route path="/evaluator" element={<Evaluator />}></Route>
         </Route>
       </Routes>
     </>

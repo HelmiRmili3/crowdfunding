@@ -8,7 +8,7 @@ export function useAuth() {
 export const AuthProvider = ({ children }) => {
 
   
-  const [isLoggedIn, setIsLoggedIn] = useState( );
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   
   return (
     <AuthContext.Provider

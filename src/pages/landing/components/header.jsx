@@ -1,12 +1,10 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 function Header() {
   const navigate = useNavigate();
-  const handleConnectWallet = ()=> 
-   {
-    console.log('Connect Wallet clicked');
-    navigate('/login',{ replace: true })
-    
+  const handleConnectWallet = () => {
+    console.log("Connect Wallet clicked");
+    navigate("/login", { replace: true });
   };
   return (
     <header className="bg-blue-500 text-white py-4  top-0 left-0 right-0 z-10">

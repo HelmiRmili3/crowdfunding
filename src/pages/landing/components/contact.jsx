@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function Contact() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can handle form submission logic here, such as sending the message to your server or processing it in any way you need.
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Message:', message);
+    
+    console.log("Name:", name);
+    console.log("Email:", email);
+    console.log("Message:", message);
   };
 
   return (
@@ -20,7 +20,10 @@ function Contact() {
         <div className="max-w-md mx-auto">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-600 text-sm font-medium mb-2">
+              <label
+                htmlFor="name"
+                className="block text-gray-600 text-sm font-medium mb-2"
+              >
                 Your Name
               </label>
               <input
@@ -34,7 +37,10 @@ function Contact() {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-600 text-sm font-medium mb-2">
+              <label
+                htmlFor="email"
+                className="block text-gray-600 text-sm font-medium mb-2"
+              >
                 Your Email
               </label>
               <input
@@ -48,7 +54,10 @@ function Contact() {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="message" className="block text-gray-600 text-sm font-medium mb-2">
+              <label
+                htmlFor="message"
+                className="block text-gray-600 text-sm font-medium mb-2"
+              >
                 Your Message
               </label>
               <textarea
@@ -75,4 +84,3 @@ function Contact() {
 }
 
 export default Contact;
-
