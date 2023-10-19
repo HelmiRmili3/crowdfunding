@@ -11,7 +11,7 @@ function Card({
 }) {
   return (
     <div
-      className="max-w-xs mx-auto bg-gray-50 rounded-lg overflow-hidden shadow-lg mt-20 border"
+      className="max-w-xs mx-auto bg-gray-50 rounded-lg overflow-hidden shadow-lg mt-5 border"
       onClick={onClick}
     >
       <img

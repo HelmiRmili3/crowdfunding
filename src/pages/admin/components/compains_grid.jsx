@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Card from "../../../components/card";
 import { useNavigate } from "react-router-dom";
 import Compain from "./compain";
+import CustomText from "../../../components/customText";
 
 function CompainsGrid() {
   const navigate = useNavigate();
@@ -13,8 +14,9 @@ function CompainsGrid() {
   };
   return !cardCliked ? (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="mx-auto max-w-5xl mt-10 mb-10 ml-1/6 mr-1/6 flex flex-wrap -mx-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 pt-40">
+        <CustomText/>
+        <div className="mx-auto max-w-5xl  mb-10 ml-1/6 mr-1/6 flex flex-wrap -mx-4">
           <Card
             domain={"Education"}
             title={"School fund"}
