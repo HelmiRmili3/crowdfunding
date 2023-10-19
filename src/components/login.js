@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../contexts/authContext";
 function Login() {
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth();
   const handleLogin = () => {
+    setIsLoggedIn(true);
     console.log("Login Admin");
     navigate("/admin/compains", { replace: true });
   };

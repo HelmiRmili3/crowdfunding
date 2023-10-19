@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-
+import { useAuth } from "../contexts/authContext";
 const CustomButton = ({ avatarImageUrl }) => {
+  const { setIsLoggedIn } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const Logout = () => {
+    setIsLoggedIn(false);
+  };
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -41,13 +44,12 @@ const CustomButton = ({ avatarImageUrl }) => {
       {isDropdownOpen && (
         <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100">
           <div className="py-1">
-            <button
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-            >
+            <button className="block px-4 w-full py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
               Profile
             </button>
             <button
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              className="block px-4 py-2 w-full text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              onClick={Logout}
             >
               Logout
             </button>

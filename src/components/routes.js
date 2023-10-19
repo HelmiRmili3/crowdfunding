@@ -25,7 +25,7 @@ function RoutesComponent() {
           {/* Admin Routes */}
           <Route path="/admin" element={<Admin />}>
             <Route exact path="compains/" element={<CompainsGrid />}>
-              <Route path="compain" element={<Compain />}></Route>
+              <Route  path="compain" element={<Compain />}></Route>
             </Route>
             <Route path="associations" element={<AssociationsList />}></Route>
             <Route path="donors" element={<DonorsList />}></Route>
