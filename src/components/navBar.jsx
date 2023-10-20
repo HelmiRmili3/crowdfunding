@@ -1,12 +1,12 @@
 import React from "react";
-import CustomLink from "../../../components/customLink";
-import CustomButton from "../../../components/customButton";
-function Navbar() {
+import CustomLink from "./customLink";
+import CustomButton from "./customButton";
+function Navbar({ customLinks }) {
   return (
     <>
       <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a href="" className="flex items-center">
+          <a href="http://localhost:3000/admin/compains" className="flex items-center">
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/1/1e/RPC-JP_Logo.png"
               className="h-8 mr-3"
@@ -25,10 +25,11 @@ function Navbar() {
             id="navbar-sticky"
           >
             <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <CustomLink to="/admin/compains">Campains</CustomLink>
-              <CustomLink to="/admin/associations">Associations</CustomLink>
-              <CustomLink to="/admin/donors">Donors</CustomLink>
-              <CustomLink to="/admin/evaluator">Evaluator</CustomLink>
+              {customLinks.map((link, index) => (
+                <CustomLink key={index} to={link.to}>
+                  {link.text}
+                </CustomLink>
+              ))}
             </ul>
           </div>
         </div>

@@ -6,8 +6,7 @@ function Login() {
   const { setIsLoggedIn } = useAuth();
   const handleLogin = () => {
     setIsLoggedIn(true);
-    console.log("Login Admin");
-    navigate("/admin/compains", { replace: true });
+    navigate("/association", { replace: true });
   };
   return (
     <div className="min-h-screen flex items-center justify-center">
