@@ -1,0 +1,145 @@
+PS D:\crowdfunding> truffle migrate
+
+Compiling your contracts...
+===========================
+> Compiling @openzeppelin\contracts\access\Ownable.sol
+> Compiling @openzeppelin\contracts\interfaces\draft-IERC6093.sol
+> Compiling @openzeppelin\contracts\token\ERC721\ERC721.sol
+> Compiling @openzeppelin\contracts\token\ERC721\IERC721.sol
+> Compiling @openzeppelin\contracts\token\ERC721\IERC721Receiver.sol
+> Compiling @openzeppelin\contracts\token\ERC721\extensions\IERC721Metadata.sol
+> Compiling @openzeppelin\contracts\utils\Context.sol
+> Compiling @openzeppelin\contracts\utils\Strings.sol
+> Compiling @openzeppelin\contracts\utils\introspection\ERC165.sol
+> Compiling @openzeppelin\contracts\utils\introspection\IERC165.sol
+> Compiling @openzeppelin\contracts\utils\math\Math.sol
+> Compiling @openzeppelin\contracts\utils\math\SignedMath.sol
+> Compiling .\contracts\Auth.sol
+> Compiling .\contracts\Crowdfunding.sol
+> Artifacts written to D:\crowdfunding\build\contracts
+> Compiled successfully using:
+   - solc: 0.8.20+commit.a1b79de6.Emscripten.clang
+> Something went wrong while attempting to connect to the network at http://127.0.0.1:7545. Check your network configuration.
+CONNECTION ERROR: Couldn't connect to node http://127.0.0.1:7545.
+Truffle v5.7.7 (core: 5.7.7)
+Node v16.18.0
+PS D:\crowdfunding> truffle migrate
+
+Compiling your contracts...
+===========================
+> Compiling @openzeppelin\contracts\access\Ownable.sol
+> Compiling @openzeppelin\contracts\interfaces\draft-IERC6093.sol
+> Compiling @openzeppelin\contracts\token\ERC721\ERC721.sol
+> Compiling @openzeppelin\contracts\token\ERC721\IERC721.sol
+> Compiling @openzeppelin\contracts\token\ERC721\IERC721Receiver.sol
+> Compiling @openzeppelin\contracts\token\ERC721\extensions\IERC721Metadata.sol
+> Compiling @openzeppelin\contracts\utils\Context.sol
+> Compiling @openzeppelin\contracts\utils\Strings.sol
+> Compiling @openzeppelin\contracts\utils\introspection\ERC165.sol
+> Compiling @openzeppelin\contracts\utils\introspection\IERC165.sol
+> Compiling @openzeppelin\contracts\utils\math\Math.sol
+> Compiling @openzeppelin\contracts\utils\math\SignedMath.sol
+> Compiling .\contracts\Auth.sol
+> Compiling .\contracts\Crowdfunding.sol
+> Artifacts written to D:\crowdfunding\build\contracts
+> Compiled successfully using:
+   - solc: 0.8.20+commit.a1b79de6.Emscripten.clang
+
+
+Starting migrations...
+======================
+> Network name:    'development'
+> Network id:      5777
+> Block gas limit: 6721975 (0x6691b7)
+
+
+2_deploy_contracts.js
+=====================
+
+   Deploying 'Auth'
+   ----------------
+   > transaction hash:    0xfe3baa09f28e78c0fc58646963ad4389c7c3dcf7e5300349da6118949d44afb5
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x47524577EfBd09c1910BE7374aBBdfB43e0C8C88
+   > block number:        1
+   > block timestamp:     1697858017
+   > account:             0x2BaD782A0a327d6092fB1F6E1a50a9cCC1B00F84
+   > balance:             99.995745097
+   > gas used:            1260712 (0x133ca8)
+   > gas price:           3.375 gwei
+   > value sent:          0 ETH
+   > total cost:          0.004254903 ETH
+
+
+   Deploying 'Crowdfunding'
+   ------------------------
+ *** Deployment Failed ***
+
+"Crowdfunding" -- Invalid number of parameters for "undefined". Got 0 expected 1!.
+
+Exiting: Review successful transactions manually by checking the transaction hashes above on Etherscan.
+
+
+Error:  *** Deployment Failed ***
+
+"Crowdfunding" -- Invalid number of parameters for "undefined". Got 0 expected 1!.
+
+    at C:\Users\Helmi Rmili\AppData\Roaming\npm\node_modules\truffle\build\webpack:\packages\deployer\src\deployment.js:330:1
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+Truffle v5.7.7 (core: 5.7.7)
+Node v16.18.0
+PS D:\crowdfunding> truffle migrate
+
+Compiling your contracts...
+===========================
+> Compiling @openzeppelin\contracts\access\Ownable.sol
+> Compiling @openzeppelin\contracts\interfaces\draft-IERC6093.sol
+> Compiling @openzeppelin\contracts\token\ERC721\ERC721.sol
+> Compiling @openzeppelin\contracts\token\ERC721\IERC721.sol
+> Compiling @openzeppelin\contracts\token\ERC721\IERC721Receiver.sol
+> Compiling @openzeppelin\contracts\token\ERC721\extensions\IERC721Metadata.sol
+> Compiling @openzeppelin\contracts\utils\Context.sol
+> Compiling @openzeppelin\contracts\utils\Strings.sol
+> Compiling @openzeppelin\contracts\utils\introspection\ERC165.sol
+> Compiling @openzeppelin\contracts\utils\introspection\IERC165.sol
+> Compiling @openzeppelin\contracts\utils\math\Math.sol
+> Compiling @openzeppelin\contracts\utils\math\SignedMath.sol
+> Compiling .\contracts\Auth.sol
+> Compiling .\contracts\Crowdfunding.sol
+> Artifacts written to D:\crowdfunding\build\contracts
+> Compiled successfully using:
+   - solc: 0.8.20+commit.a1b79de6.Emscripten.clang
+
+
+Starting migrations...
+======================
+> Network name:    'development'     
+> Network id:      5777
+> Block gas limit: 6721975 (0x6691b7)
+
+
+2_deploy_contracts.js
+=====================
+
+   Deploying 'Crowdfunding'
+   ------------------------
+   > transaction hash:    0x46c38157d1c0958679ab28d8ef421d1b24a8f68a9c1f8057d878c16f71fbdede
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x99a12af0Dd9bf182796caE957ab9a27C75214c29
+   > block number:        2
+   > block timestamp:     1697858287
+   > account:             0x2BaD782A0a327d6092fB1F6E1a50a9cCC1B00F84
+   > balance:             99.981689046164127409
+   > gas used:            4250841 (0x40dcd9)
+   > gas price:           3.306651751 gwei
+   > value sent:          0 ETH
+   > total cost:          0.014056050835872591 ETH
+
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:     0.014056050835872591 ETH
+
+Summary
+=======
+> Total deployments:   1
+> Final cost:          0.014056050835872591 ETH

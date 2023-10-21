@@ -1,8 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+import "./Auth.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Crowdfunding is Ownable {
+contract DonationNFT is ERC721, Ownable {
+    constructor() ERC721("DonationNFT", "DNFT") Ownable(msg.sender) {}
+    function mintDonationNFT(address to, uint256 tokenId) public onlyOwner {
+        _mint(to, tokenId);
+    }
+}
+
+contract Crowdfunding {
     enum Status {
         Waiting,
         Invalid,
@@ -10,35 +19,20 @@ contract Crowdfunding is Ownable {
         Done
     }
 
-    enum Role {
-        Admin,
-        Association,
-        Donor,
-        Evaluator
-    }
-
-    struct Compain {
+    struct Campaign {
         uint256 id;
         address creator;
         string field;
         string title;
         string description;
-        uint256 endDate; // Changed from startDate to endDate
+        uint256 endDate;
         uint256 period;
         uint256 amount;
         uint256 raisedAmount;
         address[] donors;
-        uint256 donorsCount;
         string imageUrl;
         string dataUrl;
         Status status;
-    }
-
-    struct Actor {
-        uint256 id;
-        address wallet;
-        string imageUrl;
-        Role role;
     }
 
     struct Donation {
@@ -48,49 +42,26 @@ contract Crowdfunding is Ownable {
         uint256 campaign;
     }
 
-    uint256 public compainIdCounter;
-    uint256 public actorIdCounter;
+    uint256 public campaignIdCounter;
     uint256 public donationIdCounter;
 
-    Compain[] public campaigns; // List of campaigns
-    Actor[] public actors; // List of actors
-    Donation[] public donations; // List of donations
+    Campaign[] public campaigns;
+    Donation[] public donations;
 
-    event CampaignCreated(uint256 campaignId, address creator);
-    event CampaignEvaluated(uint256 campaignId, Status status);
-    event DonationReceived(uint256 campaignId, address donor, uint256 amount);
+    DonationNFT public nftContract;
+    Auth public authContract;
 
-    constructor() {
-        address ownerAddress = owner();
-        actors.push(
-            Actor(
-                actorIdCounter,
-                ownerAddress,
-                "https://cdn-icons-png.flaticon.com/128/6024/6024190.png",
-                Role.Admin
-            )
-        );
-        actorIdCounter++;
+    constructor(address _authContractAddress) {
+        authContract = Auth(_authContractAddress);
+        nftContract = new DonationNFT();
     }
 
-    modifier onlyRole(Role role) {
-        require(getActorRole(msg.sender) == role, "Permission denied");
-        _;
-    }
-
-    function createActor(
-        address _address,
-        string memory _imageUrl,
-        Role _role
-    ) public onlyRole(Role.Admin) {
-        updateAll();
-
+    modifier onlyRole(Auth.Role role) {
         require(
-            !addressExists(_address),
-            "Address is already associated with an actor"
+            authContract.getActorRole(msg.sender) == role,
+            "Permission denied"
         );
-        actors.push(Actor(actorIdCounter, _address, _imageUrl, _role));
-        actorIdCounter++;
+        _;
     }
 
     function createCampaign(
@@ -101,12 +72,10 @@ contract Crowdfunding is Ownable {
         uint256 _amount,
         string memory _imageUrl,
         string memory _dataUrl
-    ) public onlyRole(Role.Association) {
-        updateAll();
-
+    ) public onlyRole(Auth.Role.Association) {
         campaigns.push(
-            Compain(
-                compainIdCounter,
+            Campaign(
+                campaignIdCounter,
                 msg.sender,
                 _field,
                 _title,
@@ -116,102 +85,65 @@ contract Crowdfunding is Ownable {
                 _amount,
                 0,
                 new address[](0),
-                0,
                 _imageUrl,
                 _dataUrl,
                 Status.Waiting
             )
         );
-        compainIdCounter++;
-        emit CampaignCreated(compainIdCounter, msg.sender);
+        campaignIdCounter++;
     }
 
     function evaluateCampaign(uint256 _id, Status _status)
         public
-        onlyRole(Role.Evaluator)
+        onlyRole(Auth.Role.Evaluator)
     {
-        updateAll();
-
-        require(_id > 0 && _id <= compainIdCounter, "Invalid campaign ID");
-        Compain storage campaign = campaigns[_id - 1];
+        require(_id > 0 && _id <= campaignIdCounter, "Invalid campaign ID");
+        Campaign storage campaign = campaigns[_id - 1];
         require(
             campaign.status == Status.Waiting,
             "Campaign status is not Waiting"
         );
         campaign.endDate = block.timestamp + campaign.period;
         campaign.status = _status;
-        emit CampaignEvaluated(_id, _status);
     }
 
-    function donationTo(uint256 _campaignId)
+    function donateToCampaign(uint256 _campaignId)
         public
         payable
-        onlyRole(Role.Donor)
+        onlyRole(Auth.Role.Donor)
     {
-        updateAll();
-
         require(
-            _campaignId > 0 && _campaignId <= compainIdCounter,
+            _campaignId > 0 && _campaignId <= campaignIdCounter,
             "Invalid campaign ID"
         );
-        Compain storage campaign = campaigns[_campaignId - 1];
+        Campaign storage campaign = campaigns[_campaignId - 1];
         require(
             campaign.status == Status.Valid,
             "Campaign status is not Valid"
         );
-        campaign.raisedAmount += msg.value;
-        campaign.donorsCount++;
-        campaign.donors.push(msg.sender);
+
+        // Mint a new Donation NFT for the donor
+        nftContract.mintDonationNFT(msg.sender, donationIdCounter);
+
+        // Create a new Donation and associate it with the NFT
         donations.push(
             Donation(donationIdCounter, msg.sender, msg.value, _campaignId)
         );
         donationIdCounter++;
-        emit DonationReceived(_campaignId, msg.sender, msg.value);
+
+        // Update the campaign's raisedAmount and donors
+        campaign.raisedAmount += msg.value;
+        campaign.donors.push(msg.sender);
+
+        // Transfer the donated ether to the campaign's creator
+        payable(campaign.creator).transfer(msg.value);
     }
 
-    function getActorRole(address _address) public view returns (Role) {
-        for (uint256 i = 0; i < actors.length; i++) {
-            if (actors[i].wallet == _address) {
-                return actors[i].role;
-            }
-        }
-        return Role.Donor; // Return Donor role if the address is not found
-    }
-
-    function addressExists(address _address) public view returns (bool) {
-        for (uint256 i = 0; i < actors.length; i++) {
-            if (actors[i].wallet == _address) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function getAllActors() public view onlyRole(Role.Admin)  returns (Actor[] memory) {
-        return actors;
-    }
-
-    function getAllCampaigns() public view returns (Compain[] memory) {
+    function getAllCampaigns() public view returns (Campaign[] memory) {
         return campaigns;
     }
 
     function getAllDonations() public view returns (Donation[] memory) {
         return donations;
     }
-
-    function updateAll() public {
-        for (uint256 i = 0; i < campaigns.length; i++) {
-            Compain storage campaign = campaigns[i];
-
-            // Check if the campaign is valid and the period is done
-            if (
-                campaign.status == Status.Valid &&
-                block.timestamp >= campaign.endDate
-            ) {
-                campaign.status = Status.Done;
-            }
-        }
-    }
 }
-//"education","shcoolfund","description",90010,10,"",""
-//0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB,"",2
