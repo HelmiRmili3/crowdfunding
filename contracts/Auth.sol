@@ -6,7 +6,8 @@ contract Auth {
         Admin,
         Association,
         Donor,
-        Evaluator
+        Evaluator,
+        NotFound
     }
 
     struct Actor {
@@ -14,6 +15,9 @@ contract Auth {
         address wallet;
         string imageUrl;
         Role role;
+        string cin;
+        string description;
+        string password;
     }
 
     uint256 public actorIdCounter;
@@ -25,7 +29,10 @@ contract Auth {
                 actorIdCounter,
                 msg.sender,
                 "https://cdn-icons-png.flaticon.com/128/6024/6024190.png",
-                Role.Admin
+                Role.Admin,
+                "12695849",
+                "I'am the admin and the owner of this smart contract",
+                "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
             )
         );
         actorIdCounter++;
@@ -39,14 +46,59 @@ contract Auth {
     function createActor(
         address _address,
         string memory _imageUrl,
-        Role _role
+        Role _role,
+        string memory _cin,
+        string memory _description,
+        string memory _password
     ) public onlyRole(Role.Admin) {
         require(
             !addressExists(_address),
             "Address is already associated with an actor"
         );
-        actors.push(Actor(actorIdCounter, _address, _imageUrl, _role));
+        actors.push(
+            Actor(
+                actorIdCounter,
+                _address,
+                _imageUrl,
+                _role,
+                _cin,
+                _description,
+                _password
+            )
+        );
         actorIdCounter++;
+    }
+
+    function getActorData(
+        address _address
+    )
+        public
+        view
+        returns (
+            uint256 id,
+            string memory imageUrl,
+            Role role,
+            string memory cin,
+            string memory description,
+            address wallet,
+            string memory password
+        )
+    {
+        for (uint256 i = 0; i < actors.length; i++) {
+            if (actors[i].wallet == _address) {
+                return (
+                    actors[i].id,
+                    actors[i].imageUrl,
+                    actors[i].role,
+                    actors[i].cin,
+                    actors[i].description,
+                    actors[i].wallet,
+                    actors[i].password
+                );
+            }
+        }
+        // Return default values if the address is not found
+        return (0, "", Role.NotFound, "", "", address(0), "");
     }
 
     function getActorRole(address _address) public view returns (Role) {
@@ -55,7 +107,7 @@ contract Auth {
                 return actors[i].role;
             }
         }
-        return Role.Donor; // Return Donor role if the address is not found
+        return Role.NotFound; // Return NotFound if the address is not found
     }
 
     function addressExists(address _address) public view returns (bool) {
@@ -67,7 +119,12 @@ contract Auth {
         return false;
     }
 
-    function getAllActors() public view onlyRole(Role.Admin) returns (Actor[] memory) {
+    function getAllActors()
+        public
+        view
+        onlyRole(Role.Admin)
+        returns (Actor[] memory)
+    {
         return actors;
     }
 }

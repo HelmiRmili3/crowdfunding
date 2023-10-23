@@ -1,5 +1,12 @@
-import React, { createContext, useState, useContext, useEffect, useCallback } from "react";
+import { Auth_Address } from "../utils/contracts";
 
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+} from "react";
 const WalletContext = createContext();
 
 export function useWallet() {
@@ -11,12 +18,13 @@ export const WalletProvider = ({ children }) => {
   const [changed, setChanged] = useState(false);
   const [errors, setErrors] = useState(null);
 
-  
   const connectWallet = useCallback(async () => {
     try {
       const ethereum = window.ethereum;
       if (ethereum) {
-        const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+        const accounts = await ethereum.request({
+          method: "eth_requestAccounts",
+        });
         setAddress(accounts[0]);
         setErrors(null);
         ethereum.on("accountsChanged", function (accounts) {
@@ -24,6 +32,7 @@ export const WalletProvider = ({ children }) => {
           setErrors(null);
           setChanged(true);
           console.log("Account changed to", accounts[0]);
+          console.log(Auth_Address);
         });
       } else {
         setErrors("MetaMask not detected");
