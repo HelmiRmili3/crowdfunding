@@ -8,12 +8,13 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({ children }) => {
-  const { address } = useWallet();
+  const { address, changed, setChanged,connectWallet } = useWallet();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [actor, setActor] = useState();
 
   const handleLogout = () => {};
   useEffect(() => {
+    connectWallet();
     const fetchUser = async () => {
       if (address) {
         try {
@@ -30,7 +31,9 @@ export const AuthProvider = ({ children }) => {
       }
     };
     fetchUser();
-  }, [address]);
+    setChanged(false);
+  }, [address, changed,setChanged,connectWallet]);
+  
   return (
     <AuthContext.Provider
       value={{

@@ -1,5 +1,3 @@
-
-
 export const parseActor = (response) => {
   return {
     id: response.id,
@@ -10,4 +8,21 @@ export const parseActor = (response) => {
     description: response.description,
     password: response.password,
   };
+};
+
+export const getPath = (role) => {
+  const path = '';
+  switch (role) {
+    case '0':
+      path = "/admin";
+    case '1':
+      path = "/association";
+    case '2':
+      path = "/donor";
+    case '3':
+      path = "/evaluator";
+    default:
+      break;
+  }
+  return path;
 };
