@@ -10,19 +10,29 @@ export const parseActor = (response) => {
   };
 };
 
-export const getPath = (role) => {
-  const path = '';
-  switch (role) {
-    case '0':
-      path = "/admin";
-    case '1':
-      path = "/association";
-    case '2':
-      path = "/donor";
-    case '3':
-      path = "/evaluator";
-    default:
-      break;
+export const paresActors = (actors) => {
+  // code in here ..
+  return;
+};
+export const truncateAddress = (address, length = 5) => {
+  if (address.length <= length * 2) {
+    return address;
   }
-  return path;
+  const start = address.slice(0, length);
+  const end = address.slice(-length);
+  return `${start}...${end}`;
+};
+export const getRoleName = (role) => {
+  switch (role) {
+    case 0n:
+      return "admin";
+    case 1n:
+      return "association";
+    case 2n:
+      return "donor";
+    case 3n:
+      return "evaluator";
+    default:
+      return "login";
+  }
 };

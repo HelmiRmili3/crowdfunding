@@ -8,7 +8,7 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({ children }) => {
-  const { address, changed, setChanged,connectWallet } = useWallet();
+  const { address, changed, setChanged, connectWallet } = useWallet();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [actor, setActor] = useState();
 
@@ -32,8 +32,9 @@ export const AuthProvider = ({ children }) => {
     };
     fetchUser();
     setChanged(false);
-  }, [address, changed,setChanged,connectWallet]);
-  
+    setIsLoggedIn(false);
+  }, [address, changed, setChanged, connectWallet]);
+
   return (
     <AuthContext.Provider
       value={{

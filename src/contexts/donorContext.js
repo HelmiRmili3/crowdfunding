@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, } from "react";
+import React, { createContext, useContext } from "react";
 
 const DonorContext = createContext();
 export function useDonor() {
@@ -6,15 +6,5 @@ export function useDonor() {
 }
 
 export const DonorProvider = ({ children }) => {
-
-    
-  return (
-    <DonorProvider.Provider
-      value={{
-     
-      }}
-    >
-      {children}
-    </DonorProvider.Provider>
-  );
+  return <DonorContext.Provider value={{}}>{children}</DonorContext.Provider>;
 };

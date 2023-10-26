@@ -2,13 +2,7 @@
 pragma solidity ^0.8.0;
 
 contract Auth {
-    enum Role {
-        Admin,
-        Association,
-        Donor,
-        Evaluator,
-        NotFound
-    }
+    enum Role { Admin, Association, Donor, Evaluator, NotFound }
 
     struct Actor {
         uint256 id;
@@ -23,24 +17,14 @@ contract Auth {
     uint256 public actorIdCounter;
     Actor[] public actors;
 
-    constructor() {
-        actors.push(
-            Actor(
-                actorIdCounter,
-                msg.sender,
-                "https://cdn-icons-png.flaticon.com/128/6024/6024190.png",
-                Role.Admin,
-                "12695849",
-                "I'am the admin and the owner of this smart contract",
-                "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
-            )
-        );
-        actorIdCounter++;
-    }
+    // Event for actor creation
+    event ActorCreated(uint256 indexed actorId, address indexed actorAddress, Role role);
 
-    modifier onlyRole(Role role) {
-        require(getActorRole(msg.sender) == role, "Permission denied");
-        _;
+    // Event for function execution
+    event FunctionExecuted(string functionName, address indexed caller, bool success);
+
+    constructor() {
+        addAdmin(msg.sender);
     }
 
     function createActor(
@@ -50,28 +34,50 @@ contract Auth {
         string memory _cin,
         string memory _description,
         string memory _password
-    ) public onlyRole(Role.Admin) {
-        require(
-            !addressExists(_address),
-            "Address is already associated with an actor"
+    ) public  {
+        require(!addressExists(_address), "Address is already associated with an actor");
+
+        actors.push(
+            Actor(actorIdCounter, _address, _imageUrl, _role, _cin, _description, _password)
         );
+
+        // Emit an event to log actor creation
+        emit ActorCreated(actorIdCounter, _address, _role);
+
+        // Emit a generic event to log the execution of this function
+        emit FunctionExecuted("createActor", msg.sender, true);
+
+        actorIdCounter++;
+    }
+
+    modifier onlyAdmin {
+        require(getActorRole(msg.sender) == Role.Admin, "Permission denied");
+        _;
+    }
+
+    function addAdmin(address _address) public  {
         actors.push(
             Actor(
                 actorIdCounter,
                 _address,
-                _imageUrl,
-                _role,
-                _cin,
-                _description,
-                _password
+                "https://cdn-icons-png.flaticon.com/128/6024/6024190.png",
+                Role.Admin,
+                "12695849",
+                "I'm the admin and the owner of this smart contract",
+                "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
             )
         );
+
+        // Emit an event to log actor creation
+        emit ActorCreated(actorIdCounter, _address, Role.Admin);
+
+        // Emit a generic event to log the execution of this function
+        emit FunctionExecuted("addAdmin", msg.sender, true);
+
         actorIdCounter++;
     }
 
-    function getActorData(
-        address _address
-    )
+    function getActorData(address _address)
         public
         view
         returns (
@@ -97,6 +103,7 @@ contract Auth {
                 );
             }
         }
+
         // Return default values if the address is not found
         return (0, "", Role.NotFound, "", "", address(0), "");
     }
@@ -107,6 +114,7 @@ contract Auth {
                 return actors[i].role;
             }
         }
+
         return Role.NotFound; // Return NotFound if the address is not found
     }
 
@@ -116,15 +124,26 @@ contract Auth {
                 return true;
             }
         }
+
         return false;
     }
 
-    function getAllActors()
-        public
-        view
-        onlyRole(Role.Admin)
-        returns (Actor[] memory)
-    {
-        return actors;
+    function getAllActors() public view returns (Actor[] memory) {
+        Actor[] memory data = new Actor[](actors.length);
+
+        for (uint256 i = 0; i < actors.length; i++) {
+            data[i] = Actor(
+                actors[i].id,
+                actors[i].wallet,
+                actors[i].imageUrl,
+                actors[i].role,
+                actors[i].cin,
+                actors[i].description,
+                actors[i].password
+            );
+        }
+
+        // Emit a generic event to log the execution of this function
+        return data;
     }
 }

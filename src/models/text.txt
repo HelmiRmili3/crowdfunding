@@ -1,6 +1,45 @@
+Summary
+=======
+> Total deployments:   2
+> Final cost:          0.021345958812026364 ETH
+
+
+PS D:\crowdfunding> truffle compile
+
+Compiling your contracts...
+===========================
+> Compiling .\contracts\Auth.sol
+> Compiling .\contracts\Auth.sol
+> Compiling .\contracts\Crowdfunding.sol
+> Artifacts written to D:\crowdfunding\build\contracts
+> Compiled successfully using:
+   - solc: 0.8.20+commit.a1b79de6.Emscripten.clang
+PS D:\crowdfunding> truffle migrate
+
+Compiling your contracts...
+===========================
+> Compiling @openzeppelin\contracts\access\Ownable.sol
+> Compiling @openzeppelin\contracts\interfaces\draft-IERC6093.sol
+> Compiling @openzeppelin\contracts\token\ERC721\ERC721.sol
+> Compiling @openzeppelin\contracts\token\ERC721\IERC721.sol
+> Compiling @openzeppelin\contracts\token\ERC721\IERC721Receiver.sol
+> Compiling @openzeppelin\contracts\token\ERC721\extensions\IERC721Metadata.sol
+> Compiling @openzeppelin\contracts\utils\Context.sol
+> Compiling @openzeppelin\contracts\utils\Strings.sol
+> Compiling @openzeppelin\contracts\utils\introspection\ERC165.sol
+> Compiling @openzeppelin\contracts\utils\introspection\IERC165.sol
+> Compiling @openzeppelin\contracts\utils\math\Math.sol
+> Compiling @openzeppelin\contracts\utils\math\SignedMath.sol
+> Compiling .\contracts\Auth.sol
+> Compiling .\contracts\Crowdfunding.sol
+> Artifacts written to D:\crowdfunding\build\contracts
+> Compiled successfully using:
+   - solc: 0.8.20+commit.a1b79de6.Emscripten.clang
+
+
 Starting migrations...
 ======================
-> Network name:    'development'     
+> Network name:    'development'
 > Network id:      5777
 > Block gas limit: 6721975 (0x6691b7)
 
@@ -8,40 +47,33 @@ Starting migrations...
 2_deploy_contracts.js
 =====================
 
-   Deploying 'Auth'
+   Replacing 'Auth'
    ----------------
-   > transaction hash:    0x7b0bfeafc7e2f54b664002e80c447878ce615eb7495a30378ff65feef4d4376d
+   > transaction hash:    0xcf8dae814e0046a7c5bf07b946fb98062b9f7eebaee170be37f400913c1fc4e5
    > Blocks: 0            Seconds: 0
-   > contract address:    0x3aBD9CDc94cc87AEC7726c31d00d9d79e571f295
-   > block number:        3
-   > block timestamp:     1698035365
+   > contract address:    0x2c54D98B04a56001daBF12d09Ca824FC1C5531F2
+   > block number:        15
+   > block timestamp:     1698316984
    > account:             0x2BaD782A0a327d6092fB1F6E1a50a9cCC1B00F84
-   > balance:             99.975066700631444624
-   > gas used:            1986695 (0x1e5087)
-   > gas price:           3.333347863 gwei
+   > balance:             99.849806051509634737
+   > gas used:            2283250 (0x22d6f2)
+   > gas price:           3.257537058 gwei
    > value sent:          0 ETH
-   > total cost:          0.006622345532682785 ETH
+   > total cost:          0.0074377714876785 ETH
 
 
-   Deploying 'Crowdfunding'
+   Replacing 'Crowdfunding'
    ------------------------
-   > transaction hash:    0xe5036d1502df661024cc2e60ff44924ce2135c794183867b5bfcdc26778d2a47
+   > transaction hash:    0xac8f8b81e8a1000fb9cefbd6670089a0dcadd64375462c0dcdc27021ff7134e6
    > Blocks: 0            Seconds: 0
-   > contract address:    0xb6Eaf7055ecc75221d4C208fc84A329511e68b2a
-   > block number:        4
-   > block timestamp:     1698035366
+   > contract address:    0x92D229c53A9B528dB48E889315D3FbF4CEdD991d
+   > block number:        16
+   > block timestamp:     1698316985
    > account:             0x2BaD782A0a327d6092fB1F6E1a50a9cCC1B00F84
-   > balance:             99.96107822922795341
+   > balance:             99.83608785221989426
    > gas used:            4250841 (0x40dcd9)
-   > gas price:           3.290753854 gwei
+   > gas price:           3.227172997 gwei
    > value sent:          0 ETH
-   > total cost:          0.013988471403491214 ETH
+   > total cost:          0.013718199289740477 ETH
 
    > Saving artifacts
-   -------------------------------------
-   > Total cost:     0.020610816936173999 ETH
-
-Summary
-=======
-> Total deployments:   2
-> Final cost:          0.020610816936173999 ETH

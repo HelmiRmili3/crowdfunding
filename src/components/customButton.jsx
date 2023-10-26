@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/authContext";
-const CustomButton = ({ avatarImageUrl }) => {
-  const { setIsLoggedIn } = useAuth();
+import { truncateAddress } from "../utils/helper";
+const CustomButton = () => {
+  const { setIsLoggedIn, actor } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const Logout = () => {
     setIsLoggedIn(false);
@@ -20,12 +21,12 @@ const CustomButton = ({ avatarImageUrl }) => {
         >
           <div className="w-10 h-10 p-1 rounded-full bg-gray-100">
             <img
-              src={require("../assets/Preview_Logo.png")}
+              src={actor.imageUrl}
               alt="User Avatar"
               className="w-full h-full rounded-full"
             />
           </div>
-          <span className="ml-3">0x25f6..78</span>
+          <span className="ml-3">{truncateAddress(actor.address, 5)}</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="-mr-1 ml-2 h-5 w-5"

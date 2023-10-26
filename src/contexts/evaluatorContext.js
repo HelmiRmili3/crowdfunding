@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, } from "react";
+import React, { createContext, useContext } from "react";
 
 const EvaluatorContext = createContext();
 export function useEvaluator() {
@@ -6,15 +6,7 @@ export function useEvaluator() {
 }
 
 export const EvaluatorProvider = ({ children }) => {
-
-    
   return (
-    <EvaluatorProvider.Provider
-      value={{
-     
-      }}
-    >
-      {children}
-    </EvaluatorProvider.Provider>
+    <EvaluatorContext.Provider value={{}}>{children}</EvaluatorContext.Provider>
   );
 };
