@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
           console.log(error);
         }
       } else {
-        console.log("address is null.");
+        //console.log("address is null.");
       }
     };
     fetchUser();

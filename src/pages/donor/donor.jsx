@@ -1,9 +1,8 @@
-
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../../components/navBar";
 
-const links = [{ text: "Campaigns", to: "/donor/campaigns" }];
+const links = [{ text: "Compains", to: "/donor/compains" }];
 const Donor = () => {
   return (
     <>

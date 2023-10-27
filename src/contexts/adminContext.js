@@ -25,7 +25,6 @@ export const AdminProvider = ({ children }) => {
       try {
         const hashedPassword = SHA256(data.password).toString();
         console.log(hashedPassword);
-        console.log(data);
         const options = {
           from: actor.address,
           gas: 2000000,

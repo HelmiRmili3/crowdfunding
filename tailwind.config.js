@@ -1,9 +1,9 @@
-
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{html,js,jsx}"],
-  theme: {
-    extend: {},
+export const content = ["./src/**/*.{html,js,jsx}"];
+export const theme = {
+  extend: {
+    backgroundColor: {
+      gold: "#FFB000", // Define a custom "gold" color
+    },
   },
-  plugins: [],
-}
+};
+export const plugins = [];

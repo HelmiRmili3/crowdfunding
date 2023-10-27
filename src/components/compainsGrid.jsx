@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import Card from "./card";
+import { getRoleName } from "../utils/helper";
 import { Outlet, useNavigate } from "react-router-dom";
 import CustomText from "./customText";
-
+import { useAuth } from "../contexts/authContext";
 function CompainsGrid() {
+  const { actor } = useAuth();
   const navigate = useNavigate();
   const [cardCliked, setCardCliked] = useState(false);
   const handleCard = () => {
     setCardCliked(!cardCliked);
-    console.log("card clicked");
-    navigate("/admin/compains/compain", { replace: true });
+    navigate(`/${getRoleName(actor.role)}/compains/compain`, { replace: true });
   };
 
   // Define an array of card data
@@ -82,7 +83,7 @@ function CompainsGrid() {
   return !cardCliked ? (
     <>
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 pt-40">
-        <CustomText text={"All Compains"} count={6}/>
+        <CustomText text={"All Compains"} count={6} />
         <div className="mx-auto max-w-5xl  mb-10 ml-1/6 mr-1/6 flex flex-wrap -mx-4">
           {cardData.map((data, index) => (
             <Card
@@ -101,7 +102,7 @@ function CompainsGrid() {
       </div>
     </>
   ) : (
-    <Outlet/>
+    <Outlet />
   );
 }
 

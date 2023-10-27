@@ -1,5 +1,3 @@
-import { Auth_Address } from "../utils/contracts";
-
 import React, {
   createContext,
   useState,
@@ -31,8 +29,8 @@ export const WalletProvider = ({ children }) => {
           setAddress(accounts[0]);
           setErrors(null);
           setChanged(true);
-          console.log("Account changed to", accounts[0]);
-          console.log(Auth_Address);
+          //console.log("Account changed to", accounts[0]);
+          //console.log(Auth_Address);
         });
       } else {
         setErrors("MetaMask not detected");

@@ -23,7 +23,7 @@ function Navbar({ customLinks }) {
             </span>
           </a>
           <div className="flex md:order-2">
-            <CustomButton avatarImageUrl="" />
+            <CustomButton/>
           </div>
 
           <div

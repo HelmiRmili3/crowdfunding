@@ -3,7 +3,7 @@ import NavBar from "../../components/navBar";
 import { Outlet } from "react-router-dom";
 
 const links = [
-  { text: "Campaigns", to: "/admin/compains" },
+  { text: "Compains", to: "/admin/compains" },
   { text: "Associations", to: "/admin/associations" },
   { text: "Donors", to: "/admin/donors" },
   { text: "Evaluator", to: "/admin/evaluator" },

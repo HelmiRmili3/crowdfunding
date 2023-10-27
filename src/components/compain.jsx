@@ -1,6 +1,6 @@
 import React from "react";
 
-function Compain({
+const Compain = ({
   domain,
   title,
   description,
@@ -9,12 +9,26 @@ function Compain({
   daysLeft,
   address,
   onClick,
-}) {
+  children,
+}) => {
+  const donors = [
+    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e3",
+    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e4",
+    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e5",
+    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e6",
+    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e7",
+    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e8",
+    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e9",
+    "0x742d35Cc6634C0532925a3b844Bc454e4438f44ea",
+    "0x742d35Cc6634C0532925a3b844Bc454e4438f44eb",
+    "0x742d35Cc6634C0532925a3b844Bc454e4438f44ec",
+  ];
+
   return (
     <div className="h-screen  overflow-y-auto ">
-      <div className="container mx-4/6 p-20">
+      <div className="container mx-4/6 p-20 ml-10">
         <img
-          src={require("../../../assets/image.png")}
+          src={require("../assets/image.png")}
           alt="Project"
           className="w-full h-80 object-cover"
         />
@@ -40,9 +54,7 @@ function Compain({
             <div className="grid grid-cols-2 gap-2">
               <div className="grid grid-rows-2">
                 <div>
-                  <p className="text-green-500 font-bold ">
-                    {"6"} ETH
-                  </p>
+                  <p className="text-green-500 font-bold ">{"6"} ETH</p>
                 </div>
                 <div>
                   <p className="text-gray-600">Raised of {"0.5"} ETH</p>
@@ -51,18 +63,26 @@ function Compain({
 
               <div className="grid grid-rows-2 justify-end">
                 <div>
-                  <p className="text-green-500 font-bold ">{'6'}</p>
+                  <p className="text-green-500 font-bold ">{"6"}</p>
                 </div>
                 <div>
                   <p className="text-gray-600">Days left</p>
                 </div>
               </div>
             </div>
+            <div>
+              <h1>Donors</h1>
+              <ul>
+                {donors.map((address, index) => (
+                  <li className="text-green-600" key={index}>{address}</li>
+                ))}
+              </ul>
+            </div>
 
             <div className="flex bg-gray-200 rounded-lg p-2">
-              <div className="w-2/6">
+              <div className="w-1/6">
                 <img
-                  src={require("../../../assets/Preview_Logo.png")}
+                  src={require("../assets/Preview_Logo.png")}
                   alt="Avatar"
                   className="w-10 h-10 rounded-full object-cover"
                 />
@@ -70,13 +90,12 @@ function Compain({
 
               <div className="flex-1">
                 <p>Association</p>
-                <p className="text-sm text-gray-700">{address}</p>
+                <p className="text-sm text-gray-700">{"0x742d35Cc6634C0532925a3b844Bc454e4438f44eb"}</p>
               </div>
-              <button>Click ME</button>
+              {children}
             </div>
           </div>
         </div>
-
         <div className="mt-0">
           <div className="w-full h-1 bg-gray-200">
             <div className="w-1/2 h-1 bg-blue-500"></div>
@@ -85,5 +104,5 @@ function Compain({
       </div>
     </div>
   );
-}
+};
 export default Compain;
