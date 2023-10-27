@@ -9,7 +9,7 @@ const CardItem = ({
   const isAccepted = status === "accepted";
 
   return (
-    <div className="bg-white shadow-md rounded-full p-4 m-4 w-3/4">
+    <div className="bg-white shadow-md rounded-full p-2 m-2 ">
       <div className="flex items-center">
         <div className="w-1/6 mr-4">
           <img
@@ -35,7 +35,6 @@ const CardItem = ({
               />
             </div>
             <div className="ml-3 text-gray-700">
-              {" "}
               {isAccepted ? "Accepted" : "Denied"}
             </div>
             <input

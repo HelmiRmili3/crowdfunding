@@ -1,9 +1,13 @@
 import React from "react";
 
-function CustomText() {
+function CustomText({ text, count }) {
   return (
     <>
-      <h1 className="w-4/6  items-start text-lg font-bold text-gray-500">All Compains(6)</h1>
+      <div className="flex-1 text-left w-4/6">
+        <h1 className="items-start text-lg font-bold text-gray-500">
+          {text}({count})
+        </h1>
+      </div>
     </>
   );
 }

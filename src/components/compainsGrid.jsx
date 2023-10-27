@@ -82,7 +82,7 @@ function CompainsGrid() {
   return !cardCliked ? (
     <>
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 pt-40">
-        <CustomText />
+        <CustomText text={"All Compains"} count={6}/>
         <div className="mx-auto max-w-5xl  mb-10 ml-1/6 mr-1/6 flex flex-wrap -mx-4">
           {cardData.map((data, index) => (
             <Card

@@ -10,10 +10,16 @@ export const parseActor = (response) => {
   };
 };
 
-export const paresActors = (actors) => {
-  // code in here ..
-  return;
+export const parseActors = (response) => {
+  const parsedList = [];
+  response.forEach((actor) => {
+    parsedList.push(parseActor(actor));
+  });
+  return parsedList;
 };
+
+
+
 export const truncateAddress = (address, length = 5) => {
   if (address.length <= length * 2) {
     return address;

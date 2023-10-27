@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
           const response = await AuthContract.methods
             .getActorData(address)
             .call();
-          console.log(parseActor(response));
           setActor(parseActor(response));
         } catch (error) {
           console.log(error);
@@ -32,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     };
     fetchUser();
     setChanged(false);
-    setIsLoggedIn(false);
+    setIsLoggedIn(false)
   }, [address, changed, setChanged, connectWallet]);
 
   return (

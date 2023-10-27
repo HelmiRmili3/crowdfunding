@@ -17,7 +17,7 @@ function Login() {
     if (actor.password === hashedPassword) {
       setIsLoggedIn(true);
       const roleName = getRoleName(actor.role);
-      navigate(`/${roleName}`, { replace: true });
+      navigate(`/${roleName}/compains`, { replace: true });
       console.log("Logged in successfully");
     } else {
       console.log("User password is wrong");

@@ -1,17 +1,9 @@
-import React, { useState } from "react";
-import CustomButtonAdd from "../../../components/customButtonAdd";
-import PopupForm from "../../../components/popupForm";
+import React from "react";
+import { ActorsList } from "../../../components/actorsList";
 function DonorsList() {
-  const [closed, setClosed] = useState(false);
-  const close = () => {
-    setClosed(!closed);
-  };
   return (
     <>
-      <div className="min-h-screen flex-col flex items-center justify-center bg-gray-100">
-        <CustomButtonAdd onOpen={close} />
-        <PopupForm isOpen={closed} onClose={close} role={2n} />
-      </div>
+      <ActorsList role={2n} />
     </>
   );
 }
