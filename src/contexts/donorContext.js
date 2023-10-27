@@ -6,5 +6,6 @@ export function useDonor() {
 }
 
 export const DonorProvider = ({ children }) => {
+  const donateTo = () => {};
   return <DonorContext.Provider value={{}}>{children}</DonorContext.Provider>;
 };

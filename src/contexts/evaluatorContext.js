@@ -6,7 +6,10 @@ export function useEvaluator() {
 }
 
 export const EvaluatorProvider = ({ children }) => {
+  const evaluate = () => {};
   return (
-    <EvaluatorContext.Provider value={{}}>{children}</EvaluatorContext.Provider>
+    <EvaluatorContext.Provider value={{ evaluate }}>
+      {children}
+    </EvaluatorContext.Provider>
   );
 };
