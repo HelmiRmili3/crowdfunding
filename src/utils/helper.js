@@ -18,7 +18,31 @@ export const parseActors = (response) => {
   return parsedList;
 };
 
+export const parseCampain = (response) => {
+  return {
+    amount: response.amount,
+    creator: response.creator,
+    dataUrl: response.dataUrl,
+    description: response.description,
+    donors: response.donors,
+    endDate: response.endDate,
+    field: response.field,
+    id: response.id,
+    imageUrl: response.imageUrl,
+    period: response.period,
+    raisedAmount: response.raisedAmount,
+    status: response.status,
+    title: response.title,
+  };
+};
 
+export const parseCampains = (response) => {
+  const parsedList = [];
+  response.forEach((campain) => {
+    parsedList.push(parseCampain(campain));
+  });
+  return parsedList;
+};
 
 export const truncateAddress = (address, length = 5) => {
   if (address.length <= length * 2) {

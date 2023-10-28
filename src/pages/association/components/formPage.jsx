@@ -3,7 +3,7 @@ import InputField from "../../../components/inputFiled";
 import { useAssociation } from "../../../contexts/associationContext";
 const FormPage = ({ isOpen, onClose }) => {
   const { createCampaign } = useAssociation();
-  const [pdfFile, setPdfFile] = useState(null);
+  const [pdfFile, setPdfFile] = useState();
   const [comapin, setComapin] = useState({
     field: "",
     title: "",
@@ -19,12 +19,16 @@ const FormPage = ({ isOpen, onClose }) => {
   };
 
   const handleFileChange = (event) => {
-    setPdfFile(event.target.files[0]);
+    const selectedFile = event.target.files[0];
+    setPdfFile(selectedFile);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (comapin) {
       createCampaign(comapin, pdfFile);
+      console.log(comapin);
+      console.log(pdfFile);
     } else {
       console.log("Data not found");
     }
@@ -86,9 +90,10 @@ const FormPage = ({ isOpen, onClose }) => {
               label="PDF File"
               name="pdfFile"
               type="file"
-              value={pdfFile}
+              value="" // Set value to an empty string
               onChange={handleFileChange}
             />
+
             <div className="mb-4">
               <button
                 type="submit"

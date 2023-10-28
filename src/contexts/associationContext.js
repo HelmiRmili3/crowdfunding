@@ -1,8 +1,8 @@
-import React, { createContext, useContext} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { CrowdFundingContract } from "../utils/contracts";
-import uploadFileToPinata from "../apis/pinata";
+import { uploadFileToPinata } from "../apis/pinata";
 import { useAuth } from "./authContext";
-
+import { parseCampains } from "../utils/helper";
 const AssociationContext = createContext();
 
 export function useAssociation() {
@@ -11,11 +11,23 @@ export function useAssociation() {
 
 export const AssociationProvider = ({ children }) => {
   const { actor } = useAuth();
-  // const [comapins, setComapins] = useState();
-  // const [comapin, setComapin] = useState();
-
+  const [campains, setCampains] = useState();
   const getComapains = async () => {
-    return {};
+    const options = {
+      from: actor.address,
+      gas: 2000000,
+    };
+    await CrowdFundingContract.methods
+      .getAllCampaigns()
+      .call(options)
+      .then((response) => {
+        console.log(response);
+        setCampains(parseCampains(response));
+      })
+      .catch((error) => {
+        console.error("Error while creating actor:", error);
+      });
+    console.log(campains);
   };
   const createCampaign = async (comapin, pdfFile) => {
     if (comapin) {
@@ -24,6 +36,7 @@ export const AssociationProvider = ({ children }) => {
         gas: 2000000,
       };
       if (pdfFile) {
+        console.log(pdfFile);
         const ipfsHash = await uploadFileToPinata(pdfFile);
         console.log(ipfsHash);
         await CrowdFundingContract.methods
@@ -46,9 +59,13 @@ export const AssociationProvider = ({ children }) => {
       }
     }
   };
-
+  useEffect(() => {
+    getComapains();
+  }, []);
   return (
-    <AssociationContext.Provider value={{ createCampaign, getComapains }}>
+    <AssociationContext.Provider
+      value={{ createCampaign, campains }}
+    >
       {children}
     </AssociationContext.Provider>
   );

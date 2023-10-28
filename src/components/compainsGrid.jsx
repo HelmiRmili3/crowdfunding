@@ -8,8 +8,7 @@ import CustomText from "./customText";
 
 import { getRoleName } from "../utils/helper";
 import { useAuth } from "../contexts/authContext";
-
-function CompainsGrid() {
+function CompainsGrid({campains}) {
   const { actor } = useAuth();
   const navigate = useNavigate();
 
@@ -25,7 +24,7 @@ function CompainsGrid() {
   };
 
   // Define an array of card data
-  const cardData = [
+  const capains = [
     {
       domain: "Education",
       title: "School fund",
@@ -95,7 +94,7 @@ function CompainsGrid() {
     <>
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 pt-40 ">
         <div className="flex-row flex  w-3/4 px-8">
-          <CustomText text={"All Compains"} count={cardData.length} />
+          <CustomText text={"All Compains"} count={campains.length} />
           {getRoleName(actor.role) === "association" ? (
             <>
               <CustomButtonAdd onOpen={close} />
@@ -106,16 +105,16 @@ function CompainsGrid() {
         </div>
 
         <div className="mx-auto max-w-5xl  mb-10 ml-1/6 mr-1/6 flex flex-wrap -mx-4">
-          {cardData.map((data, index) => (
+          {campains.map((campain, index) => (
             <Card
               key={index}
-              domain={data.domain}
-              title={data.title}
-              description={data.description}
-              raisedAmount={data.raisedAmount}
-              amount={data.amount}
-              daysLeft={data.daysLeft}
-              address={data.address}
+              domain={campain.domain}
+              title={campain.title}
+              description={campain.description}
+              raisedAmount={campain.raisedAmount}
+              amount={campain.amount}
+              daysLeft={campain.endDate}
+              address={campain.creator}
               onClick={handleCard}
             />
           ))}
