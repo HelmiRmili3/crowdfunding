@@ -1,25 +1,31 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext} from "react";
 import { CrowdFundingContract } from "../utils/contracts";
-import { UploadFileToPinata } from "../apis/pinata";
+import uploadFileToPinata from "../apis/pinata";
+import { useAuth } from "./authContext";
+
 const AssociationContext = createContext();
+
 export function useAssociation() {
   return useContext(AssociationContext);
 }
 
 export const AssociationProvider = ({ children }) => {
-  const [comapins, setComapins] = useState();
-  const [comapin, setComapin] = useState();
+  const { actor } = useAuth();
+  // const [comapins, setComapins] = useState();
+  // const [comapin, setComapin] = useState();
 
   const getComapains = async () => {
     return {};
   };
-  const create = async ({ comapin }) => {
-    if (data) {
+  const createCampaign = async (comapin, pdfFile) => {
+    if (comapin) {
       const options = {
         from: actor.address,
         gas: 2000000,
       };
-      await UploadFileToPinata(comapin.dataUrl).then(async (dataHash) => {
+      if (pdfFile) {
+        const ipfsHash = await uploadFileToPinata(pdfFile);
+        console.log(ipfsHash);
         await CrowdFundingContract.methods
           .createCampaign(
             comapin.field,
@@ -28,7 +34,7 @@ export const AssociationProvider = ({ children }) => {
             comapin.period,
             comapin.amount,
             comapin.imageUrl,
-            dataHash
+            ipfsHash.toString()
           )
           .send(options)
           .then((response) => {
@@ -37,17 +43,13 @@ export const AssociationProvider = ({ children }) => {
           .catch((error) => {
             console.error("Error while creating actor:", error);
           });
-      });
-    } else {
-      console.log("data not found");
+      }
     }
   };
-  useEffect(() => {
-    create();
-  }, []);
+
   return (
-    <AssociationProvider.Provider value={{ create, getComapains }}>
+    <AssociationContext.Provider value={{ createCampaign, getComapains }}>
       {children}
-    </AssociationProvider.Provider>
+    </AssociationContext.Provider>
   );
 };

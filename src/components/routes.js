@@ -24,6 +24,7 @@ import CompainPageDonor from "../pages/donor/components/compain_page_donor";
 import CompainPageAdmin from "../pages/admin/components/compain_page_admin";
 import CompainPageAssociation from "../pages/association/components/compain_page_association";
 import CompainPageEvaluator from "../pages/evaluator/components/compain_page_evaluator";
+import { AssociationProvider } from "../contexts/associationContext";
 
 function RoutesComponent() {
   return (
@@ -51,9 +52,9 @@ function RoutesComponent() {
         <Route
           path="/association"
           element={
-            <AdminProvider>
+            <AssociationProvider>
               <Association />
-            </AdminProvider>
+            </AssociationProvider>
           }
         >
           <Route path="compains" element={<CompainsAssociation />} />

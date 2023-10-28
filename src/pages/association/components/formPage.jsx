@@ -1,29 +1,32 @@
 import React, { useState } from "react";
-import InputField from "./inputFiled";
-import { useAdmin } from "../../src/contexts/adminContext";
-
-const PopupForm = ({ isOpen, onClose, role }) => {
-  const { create } = useAdmin();
-  const [formData, setFormData] = useState({
-    imagePicker: "",
-    cin: "",
-    role: role,
-    password: "",
+import InputField from "../../../components/inputFiled";
+import { useAssociation } from "../../../contexts/associationContext";
+const FormPage = ({ isOpen, onClose }) => {
+  const { createCampaign } = useAssociation();
+  const [pdfFile, setPdfFile] = useState(null);
+  const [comapin, setComapin] = useState({
+    field: "",
+    title: "",
     description: "",
-    metamaskWallet: "",
+    period: 0,
+    amount: 0,
+    imageUrl: "",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setComapin({ ...comapin, [name]: value });
   };
 
+  const handleFileChange = (event) => {
+    setPdfFile(event.target.files[0]);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData) {
-      await create(formData);
+    if (comapin) {
+      createCampaign(comapin, pdfFile);
     } else {
-      console.log("data not found");
+      console.log("Data not found");
     }
   };
 
@@ -38,39 +41,53 @@ const PopupForm = ({ isOpen, onClose, role }) => {
         <div className="max-h-80 overflow-y-auto">
           <form onSubmit={handleSubmit}>
             <InputField
-              label="Image Picker"
-              name="imagePicker"
+              label="Field"
+              name="field"
               type="text"
-              value={formData.imagePicker}
+              value={comapin.field}
               onChange={handleInputChange}
             />
             <InputField
-              label="Cin Number"
-              name="cin"
+              label="Title"
+              name="title"
               type="text"
-              value={formData.cin}
-              onChange={handleInputChange}
-            />
-            <InputField
-              label="Password"
-              name="password"
-              type="password"
-              value={formData.password}
+              value={comapin.title}
               onChange={handleInputChange}
             />
             <InputField
               label="Description"
               name="description"
               type="text"
-              value={formData.description}
+              value={comapin.description}
               onChange={handleInputChange}
             />
             <InputField
-              label="Metamask Wallet"
-              name="metamaskWallet"
-              type="text"
-              value={formData.metamaskWallet}
+              label="Period"
+              name="period"
+              type="number"
+              value={comapin.period}
               onChange={handleInputChange}
+            />
+            <InputField
+              label="Amount"
+              name="amount"
+              type="number"
+              value={comapin.amount}
+              onChange={handleInputChange}
+            />
+            <InputField
+              label="Image URL"
+              name="imageUrl"
+              type="text"
+              value={comapin.imageUrl}
+              onChange={handleInputChange}
+            />
+            <InputField
+              label="PDF File"
+              name="pdfFile"
+              type="file"
+              value={pdfFile}
+              onChange={handleFileChange}
             />
             <div className="mb-4">
               <button
@@ -81,7 +98,7 @@ const PopupForm = ({ isOpen, onClose, role }) => {
               </button>
             </div>
           </form>
-        </div>{" "}
+        </div>
         <button
           onClick={onClose}
           className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700"
@@ -93,4 +110,4 @@ const PopupForm = ({ isOpen, onClose, role }) => {
   );
 };
 
-export default PopupForm;
+export default FormPage;
