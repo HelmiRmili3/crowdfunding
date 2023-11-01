@@ -8,8 +8,8 @@ import React, {
 import { SHA256 } from "crypto-js";
 import { AuthContract } from "../utils/contracts";
 import { useAuth } from "./authContext";
-import { parseActors } from "../utils/helper";
-
+import { parseActors, parseCampains } from "../utils/helper";
+import { CrowdFundingContract } from "../utils/contracts";
 const AdminContext = createContext();
 
 export function useAdmin() {
@@ -18,7 +18,24 @@ export function useAdmin() {
 
 export const AdminProvider = ({ children }) => {
   const [actors, setActors] = useState({});
+  const [Campaigns, setCampaigns] = useState([]);
   const { actor } = useAuth();
+  
+  const getComapains = useCallback(() => {
+    const options = {
+      from: actor.address,
+      gas: 2000000,
+    };
+    CrowdFundingContract.methods
+      .getAllCampaigns()
+      .call(options)
+      .then((response) => {
+        setCampaigns(parseCampains(response));
+      })
+      .catch((error) => {
+        console.error("Error while creating actor:", error);
+      });
+  }, [actor.address]);
 
   const create = useCallback(
     (data) => {
@@ -58,6 +75,7 @@ export const AdminProvider = ({ children }) => {
 
   useEffect(() => {
     const getActors = async () => {
+      getComapains();
       const options = {
         gas: 20000000,
       };
@@ -71,10 +89,10 @@ export const AdminProvider = ({ children }) => {
       }
     };
     getActors();
-  }, [create]);
+  }, [create, getComapains]);
 
   return (
-    <AdminContext.Provider value={{ actors, create }}>
+    <AdminContext.Provider value={{ actors, create,Campaigns }}>
       {children}
     </AdminContext.Provider>
   );

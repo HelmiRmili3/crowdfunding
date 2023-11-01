@@ -1,5 +1,7 @@
 import React from "react";
+import { truncateAddress } from "../utils/helper";
 function Card({
+  key,
   domain,
   title,
   description,
@@ -10,7 +12,7 @@ function Card({
   onClick,
 }) {
   return (
-    <div
+    <div key={key}
       className="max-w-xs mx-auto bg-gray-50 rounded-lg overflow-hidden shadow-lg mt-5 border"
       onClick={onClick}
     >
@@ -19,7 +21,6 @@ function Card({
         alt="Project"
         className="w-full h-48 object-cover"
       />
-
       <div className="px-4 py-2">
         <div className="grid grid-cols-1 gap-2">
           <div className="text-gray-600">
@@ -65,7 +66,7 @@ function Card({
 
             <div className="flex-1">
               <p>Association</p>
-              <p className="text-sm text-gray-700">{address}</p>
+              <p className="text-sm text-gray-700">{truncateAddress(address)}</p>
             </div>
           </div>
         </div>

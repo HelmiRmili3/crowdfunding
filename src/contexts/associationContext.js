@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { CrowdFundingContract } from "../utils/contracts";
 import { uploadFileToPinata } from "../apis/pinata";
 import { useAuth } from "./authContext";
@@ -11,25 +17,27 @@ export function useAssociation() {
 
 export const AssociationProvider = ({ children }) => {
   const { actor } = useAuth();
-  const [campains, setCampains] = useState();
-  const getComapains = async () => {
+  const [campaigns, setcampaigns] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const getComapains = useCallback(() => {
     const options = {
       from: actor.address,
       gas: 2000000,
     };
-    await CrowdFundingContract.methods
+    CrowdFundingContract.methods
       .getAllCampaigns()
       .call(options)
       .then((response) => {
-        console.log(response);
-        setCampains(parseCampains(response));
+        setcampaigns(parseCampains(response));
       })
       .catch((error) => {
         console.error("Error while creating actor:", error);
       });
-    console.log(campains);
-  };
-  const createCampaign = async (comapin, pdfFile) => {
+  }, [actor.address]);
+
+  const create = async (comapin, pdfFile) => {
+    setIsLoading(true);
     if (comapin) {
       const options = {
         from: actor.address,
@@ -52,20 +60,25 @@ export const AssociationProvider = ({ children }) => {
           .send(options)
           .then((response) => {
             console.log(response);
+            getComapains();
+            setIsLoading(false);
           })
           .catch((error) => {
             console.error("Error while creating actor:", error);
+            setIsLoading(false);
           });
       }
+    } else {
+      console.log("Comapin data is empty.");
+      setIsLoading(false);
     }
   };
+
   useEffect(() => {
     getComapains();
-  }, []);
+  }, [getComapains]);
   return (
-    <AssociationContext.Provider
-      value={{ createCampaign, campains }}
-    >
+    <AssociationContext.Provider value={{ create, campaigns ,isLoading}}>
       {children}
     </AssociationContext.Provider>
   );

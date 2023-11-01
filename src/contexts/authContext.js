@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const handleLogout = () => {};
   useEffect(() => {
     connectWallet();
+    
     const fetchUser = async () => {
       if (address) {
         try {

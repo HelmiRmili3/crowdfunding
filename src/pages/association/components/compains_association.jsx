@@ -2,11 +2,14 @@ import React from "react";
 import CompainsGrid from "../../../components/compainsGrid";
 import { useAssociation } from "../../../contexts/associationContext";
 function CompainsAssociation() {
-  const { campains } = useAssociation();
-  console.log(campains);
+  const { campaigns, isLoading, create } = useAssociation();
   return (
     <>
-      <CompainsGrid campains={campains} />
+      <CompainsGrid
+        campaigns={campaigns}
+        isLoading={isLoading}
+        create={create}
+      />
     </>
   );
 }
