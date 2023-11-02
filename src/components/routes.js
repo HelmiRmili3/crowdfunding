@@ -85,6 +85,7 @@ function RoutesComponent() {
         >
           <Route path="compains" element={<CompainsEvaluator />} />
           <Route path="compains/compain" element={<CompainPageEvaluator />} />
+          {/* <Route path="compains/compain/evaluate" element={} ></Route> */}
         </Route>
       </Route>
     </Routes>

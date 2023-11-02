@@ -1,29 +1,21 @@
 import React from "react";
 
 const Compain = ({
-  domain,
-  title,
-  description,
-  raisedAmount,
   amount,
-  daysLeft,
-  address,
-  onClick,
+  creator,
+  dataUrl,
+  description,
+  donors,
+  endDate,
+  filed,
+  id,
+  imageUrl,
+  period,
+  raisedAmount,
+  status,
+  title,
   children,
 }) => {
-  const donors = [
-    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e3",
-    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e4",
-    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e5",
-    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e6",
-    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e7",
-    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e8",
-    "0x742d35Cc6634C0532925a3b844Bc454e4438f44e9",
-    "0x742d35Cc6634C0532925a3b844Bc454e4438f44ea",
-    "0x742d35Cc6634C0532925a3b844Bc454e4438f44eb",
-    "0x742d35Cc6634C0532925a3b844Bc454e4438f44ec",
-  ];
-
   return (
     <div className="h-screen  overflow-y-auto ">
       <div className="container mx-4/6 p-20 ml-10">
@@ -70,14 +62,16 @@ const Compain = ({
                 </div>
               </div>
             </div>
-            <div>
+            {/* <div>
               <h1>Donors</h1>
               <ul>
                 {donors.map((address, index) => (
-                  <li className="text-green-600" key={index}>{address}</li>
+                  <li className="text-green-600" key={index}>
+                    {address}
+                  </li>
                 ))}
               </ul>
-            </div>
+            </div> */}
 
             <div className="flex bg-gray-200 rounded-lg p-2">
               <div className="w-1/6">
@@ -90,7 +84,9 @@ const Compain = ({
 
               <div className="flex-1">
                 <p>Association</p>
-                <p className="text-sm text-gray-700">{"0x742d35Cc6634C0532925a3b844Bc454e4438f44eb"}</p>
+                <p className="text-sm text-gray-700">
+                  {"0x742d35Cc6634C0532925a3b844Bc454e4438f44eb"}
+                </p>
               </div>
               {children}
             </div>

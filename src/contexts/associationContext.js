@@ -19,22 +19,6 @@ export const AssociationProvider = ({ children }) => {
   const { actor } = useAuth();
   const [campaigns, setcampaigns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  
-  const getComapains = useCallback(() => {
-    const options = {
-      from: actor.address,
-      gas: 2000000,
-    };
-    CrowdFundingContract.methods
-      .getAllCampaigns()
-      .call(options)
-      .then((response) => {
-        setcampaigns(parseCampains(response));
-      })
-      .catch((error) => {
-        console.error("Error while creating actor:", error);
-      });
-  }, [actor.address]);
 
   const create = async (comapin, pdfFile) => {
     setIsLoading(true);
@@ -73,12 +57,29 @@ export const AssociationProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
+  
+  const getComapains = useCallback(() => {
+    const options = {
+      from: actor.address,
+      gas: 2000000,
+    };
+    CrowdFundingContract.methods
+      .getAllCampaigns()
+      .call(options)
+      .then((response) => {
+        setcampaigns(parseCampains(response));
+      })
+      .catch((error) => {
+        console.error("Error while creating actor:", error);
+      });
+  }, [actor.address]);
 
   useEffect(() => {
     getComapains();
   }, [getComapains]);
+
   return (
-    <AssociationContext.Provider value={{ create, campaigns ,isLoading}}>
+    <AssociationContext.Provider value={{ create, campaigns, isLoading }}>
       {children}
     </AssociationContext.Provider>
   );

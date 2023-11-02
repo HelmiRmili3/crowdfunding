@@ -25,7 +25,7 @@ function CompainsGrid({ campaigns, isLoading }) {
   ) : (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 pt-40 ">
       <div className="flex-row flex w-3/4 px-8">
-        <CustomText text={"All Compains"} count={6} />
+        <CustomText text={"All Compains"} count={campaigns.length} />
         {getRoleName(actor.role) === "association" ? (
           <>
             <CustomButtonAdd onOpen={close} />

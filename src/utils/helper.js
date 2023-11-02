@@ -52,6 +52,7 @@ export const truncateAddress = (address, length = 5) => {
   const end = address.slice(-length);
   return `${start}...${end}`;
 };
+
 export const getRoleName = (role) => {
   switch (role) {
     case 0n:
@@ -66,3 +67,17 @@ export const getRoleName = (role) => {
       return "login";
   }
 };
+
+// enum Status {
+//   Waiting,
+//   Invalid,
+//   Valid,
+//   Done
+// }
+
+export const customFilter = (data,status) => {
+  const filterdData = data.filter((compain) => compain.status === status);
+  return filterdData;
+};
+// export const invalidFilter = () => {};
+// export const validFilter = () => {};
