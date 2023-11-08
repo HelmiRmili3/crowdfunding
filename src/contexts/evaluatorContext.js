@@ -27,7 +27,7 @@ export const EvaluatorProvider = ({ children }) => {
       };
       await CrowdFundingContract.methods
         .evaluateCampaign(id, status)
-        .send(options)
+        .call(options)
         .then((response) => {
           console.log(response);
         })

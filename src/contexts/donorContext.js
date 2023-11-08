@@ -17,7 +17,10 @@ export const DonorProvider = ({ children }) => {
   const { actor } = useAuth();
   const [campaigns, setcampaigns] = useState([]);
 
-  const donateTo = () => {};
+  const donateTo = () => {
+    console.log("handle donate clicked");
+  };
+
   const getComapains = useCallback(() => {
     const options = {
       from: actor.address,

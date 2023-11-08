@@ -2,6 +2,7 @@ import React from "react";
 import { truncateAddress } from "../utils/helper";
 function Card({
   key,
+  imageUrl,
   domain,
   title,
   description,
@@ -17,7 +18,7 @@ function Card({
       onClick={onClick}
     >
       <img
-        src={require("../assets/image.png")}
+        src={imageUrl}
         alt="Project"
         className="w-full h-48 object-cover"
       />

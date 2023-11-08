@@ -1,26 +1,28 @@
-import React from "react";
-import Compain from "../../../components/compain";
-function compainPageAssociation() {
-  const compain = [];
-  return (
-    <>
-      <Compain
-        amount={compain.amount}
-        creator={compain.creator}
-        dataUrl={compain.dataUrl}
-        description={compain.description}
-        donors={compain.donors}
-        endDate={compain.endDate}
-        filed={compain.filed}
-        id={compain.id}
-        imageUrl={compain.imageUrl}
-        period={compain.period}
-        raisedAmount={compain.raisedAmount}
-        status={compain.status}
-        title={compain.title}
-      ></Compain>
-    </>
-  );
-}
+// import React from "react";
+// import Compain from "../../../components/compain";
+// import { useAssociation } from "../../../contexts/associationContext";
 
-export default compainPageAssociation;
+// function CompainPageAssociation() {
+//   const { campaign } = useAssociation([]);
+//   return (
+//     <>
+    //   <Compain
+    //     amount={campaign.amount}
+    //     creator={campaign.creator}
+    //     dataUrl={campaign.dataUrl}
+    //     description={campaign.description}
+    //     donors={campaign.donors}
+    //     endDate={campaign.endDate}
+    //     filed={campaign.filed}
+    //     id={campaign.id}
+    //     imageUrl={campaign.imageUrl}
+    //     period={campaign.period}
+    //     raisedAmount={campaign.raisedAmount}
+    //     status={campaign.status}
+    //     title={campaign.title}
+    //   ></Compain>
+//     </>
+//   );
+// }
+
+// export default CompainPageAssociation;

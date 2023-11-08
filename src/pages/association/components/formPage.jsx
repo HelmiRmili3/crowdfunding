@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import InputField from "../../../components/inputFiled";
-//import { useAssociation } from "../../../contexts/associationContext";
 const FormPage = ({ isOpen, onClose, create }) => {
-  // const { create } = useAssociation();
   const [pdfFile, setPdfFile] = useState();
   const [comapin, setComapin] = useState({
     field: "",

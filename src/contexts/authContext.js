@@ -11,11 +11,9 @@ export const AuthProvider = ({ children }) => {
   const { address, changed, setChanged, connectWallet } = useWallet();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [actor, setActor] = useState();
-
   const handleLogout = () => {};
   useEffect(() => {
     connectWallet();
-    
     const fetchUser = async () => {
       if (address) {
         try {
@@ -32,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     };
     fetchUser();
     setChanged(false);
-    setIsLoggedIn(false)
+    setIsLoggedIn(false);
   }, [address, changed, setChanged, connectWallet]);
 
   return (
@@ -42,6 +40,7 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn,
         actor,
         handleLogout,
+        
       }}
     >
       {children}

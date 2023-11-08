@@ -57,7 +57,7 @@ export const AssociationProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
-  
+
   const getComapains = useCallback(() => {
     const options = {
       from: actor.address,
@@ -79,7 +79,9 @@ export const AssociationProvider = ({ children }) => {
   }, [getComapains]);
 
   return (
-    <AssociationContext.Provider value={{ create, campaigns, isLoading }}>
+    <AssociationContext.Provider
+      value={{ create, campaigns, isLoading }}
+    >
       {children}
     </AssociationContext.Provider>
   );

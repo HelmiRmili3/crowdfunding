@@ -2,7 +2,13 @@
 pragma solidity ^0.8.0;
 
 contract Auth {
-    enum Role { Admin, Association, Donor, Evaluator, NotFound }
+    enum Role {
+        Admin,
+        Association,
+        Donor,
+        Evaluator,
+        NotFound
+    }
 
     struct Actor {
         uint256 id;
@@ -18,10 +24,18 @@ contract Auth {
     Actor[] public actors;
 
     // Event for actor creation
-    event ActorCreated(uint256 indexed actorId, address indexed actorAddress, Role role);
+    event ActorCreated(
+        uint256 indexed actorId,
+        address indexed actorAddress,
+        Role role
+    );
 
     // Event for function execution
-    event FunctionExecuted(string functionName, address indexed caller, bool success);
+    event FunctionExecuted(
+        string functionName,
+        address indexed caller,
+        bool success
+    );
 
     constructor() {
         addAdmin(msg.sender);
@@ -34,11 +48,22 @@ contract Auth {
         string memory _cin,
         string memory _description,
         string memory _password
-    ) public  {
-        require(!addressExists(_address), "Address is already associated with an actor");
+    ) public {
+        require(
+            !addressExists(_address),
+            "Address is already associated with an actor"
+        );
 
         actors.push(
-            Actor(actorIdCounter, _address, _imageUrl, _role, _cin, _description, _password)
+            Actor(
+                actorIdCounter,
+                _address,
+                _imageUrl,
+                _role,
+                _cin,
+                _description,
+                _password
+            )
         );
 
         // Emit an event to log actor creation
@@ -50,12 +75,12 @@ contract Auth {
         actorIdCounter++;
     }
 
-    modifier onlyAdmin {
+    modifier onlyAdmin() {
         require(getActorRole(msg.sender) == Role.Admin, "Permission denied");
         _;
     }
 
-    function addAdmin(address _address) public  {
+    function addAdmin(address _address) public {
         actors.push(
             Actor(
                 actorIdCounter,
@@ -77,7 +102,9 @@ contract Auth {
         actorIdCounter++;
     }
 
-    function getActorData(address _address)
+    function getActorData(
+        address _address
+    )
         public
         view
         returns (

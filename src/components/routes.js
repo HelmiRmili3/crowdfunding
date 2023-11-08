@@ -20,10 +20,10 @@ import CompainsEvaluator from "../pages/evaluator/components/compains_evaluator"
 import Evaluator from "../pages/evaluator/evaluator";
 import Donor from "../pages/donor/donor";
 import CompainsDonor from "../pages/donor/components/compains_donor";
-import CompainPageDonor from "../pages/donor/components/compain_page_donor";
-import CompainPageAdmin from "../pages/admin/components/compain_page_admin";
-import CompainPageAssociation from "../pages/association/components/compain_page_association";
-import CompainPageEvaluator from "../pages/evaluator/components/compain_page_evaluator";
+//import CompainPageDonor from "../pages/donor/components/compain_page_donor";
+//import CompainPageAdmin from "../pages/admin/components/compain_page_admin";
+//import CompainPageAssociation from "../pages/association/components/compain_page_association";
+//import CompainPageEvaluator from "../pages/evaluator/components/compain_page_evaluator";
 import { AssociationProvider } from "../contexts/associationContext";
 
 function RoutesComponent() {
@@ -42,7 +42,7 @@ function RoutesComponent() {
           }
         >
           <Route path="compains" element={<CompainsAdmin />} />
-          <Route path="compains/compain" element={<CompainPageAdmin />} />
+          {/* <Route path="compains/compain" element={<CompainPageAdmin />} /> */}
           <Route path="associations" element={<AssociationsList />} />
           <Route path="donors" element={<DonorsList />} />
           <Route path="evaluator" element={<EvaluatorProfile />} />
@@ -58,7 +58,7 @@ function RoutesComponent() {
           }
         >
           <Route path="compains" element={<CompainsAssociation />} />
-          <Route path="compains/compain" element={<CompainPageAssociation />} />
+          {/* <Route path="compains/compain" element={<CompainPageAssociation />} /> */}
         </Route>
 
         {/* Donor Routes */}
@@ -71,7 +71,7 @@ function RoutesComponent() {
           }
         >
           <Route path="compains" element={<CompainsDonor />} />
-          <Route path="compains/compain" element={<CompainPageDonor />} />
+          {/* <Route path="compains/compain" element={<CompainPageDonor />} /> */}
         </Route>
 
         {/* Evaluator Routes */}
@@ -84,7 +84,7 @@ function RoutesComponent() {
           }
         >
           <Route path="compains" element={<CompainsEvaluator />} />
-          <Route path="compains/compain" element={<CompainPageEvaluator />} />
+          {/* <Route path="compains/compain" element={<CompainPageEvaluator />} /> */}
           {/* <Route path="compains/compain/evaluate" element={} ></Route> */}
         </Route>
       </Route>
