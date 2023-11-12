@@ -17,7 +17,7 @@ export function useEvaluator() {
 export const EvaluatorProvider = ({ children }) => {
   const { actor } = useAuth();
   const [campaigns, setcampaigns] = useState([]);
-  const [compain, setCompain] = useState();
+  const [campaignbutton, setCampaignbutton] = useState([]);
 
   const evaluate = async (id, status) => {
     if (id != null || status != null) {
@@ -27,7 +27,7 @@ export const EvaluatorProvider = ({ children }) => {
       };
       await CrowdFundingContract.methods
         .evaluateCampaign(id, status)
-        .call(options)
+        .send(options)
         .then((response) => {
           console.log(response);
         })
@@ -61,7 +61,7 @@ export const EvaluatorProvider = ({ children }) => {
   }, [getComapains]);
   return (
     <EvaluatorContext.Provider
-      value={{ evaluate, campaigns, compain, setCompain }}
+      value={{ evaluate, campaigns, campaignbutton, setCampaignbutton }}
     >
       {children}
     </EvaluatorContext.Provider>

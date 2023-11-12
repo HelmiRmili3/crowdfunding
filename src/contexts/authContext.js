@@ -11,6 +11,8 @@ export const AuthProvider = ({ children }) => {
   const { address, changed, setChanged, connectWallet } = useWallet();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [actor, setActor] = useState();
+  const [compain, setCompain] = useState();
+
   const handleLogout = () => {};
   useEffect(() => {
     connectWallet();
@@ -40,7 +42,8 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn,
         actor,
         handleLogout,
-        
+        compain,
+        setCompain,
       }}
     >
       {children}

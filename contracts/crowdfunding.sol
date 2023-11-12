@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+
 import "./Auth.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract DonationNFT is ERC721, Ownable {
     constructor() ERC721("DonationNFT", "DNFT") Ownable(msg.sender) {}
-    function mintDonationNFT(address to, uint256 tokenId) public onlyOwner {
+
+    function mintDonationNFT(address to, uint256 tokenId) external onlyOwner {
         _mint(to, tokenId);
     }
 }
@@ -42,8 +44,8 @@ contract Crowdfunding {
         uint256 campaign;
     }
 
-    uint256 public campaignIdCounter;
-    uint256 public donationIdCounter;
+    uint256 public campaignIdCounter = 0;
+    uint256 public donationIdCounter = 0;
 
     Campaign[] public campaigns;
     Donation[] public donations;
@@ -59,7 +61,7 @@ contract Crowdfunding {
     modifier onlyRole(Auth.Role role) {
         require(
             authContract.getActorRole(msg.sender) == role,
-            "Permission denied"
+            "Owner permission required"
         );
         _;
     }
@@ -72,7 +74,7 @@ contract Crowdfunding {
         uint256 _amount,
         string memory _imageUrl,
         string memory _dataUrl
-    ) public onlyRole(Auth.Role.Association) {
+    ) public {
         campaigns.push(
             Campaign(
                 campaignIdCounter,
@@ -93,12 +95,9 @@ contract Crowdfunding {
         campaignIdCounter++;
     }
 
-    function evaluateCampaign(uint256 _id, Status _status)
-        public
-        onlyRole(Auth.Role.Evaluator)
-    {
-        require(_id > 0 && _id <= campaignIdCounter, "Invalid campaign ID");
-        Campaign storage campaign = campaigns[_id - 1];
+    function evaluateCampaign(uint256 _id, Status _status) public {
+        require(_id <= campaignIdCounter, "Invalid campaign ID");
+        Campaign storage campaign = campaigns[_id];
         require(
             campaign.status == Status.Waiting,
             "Campaign status is not Waiting"
@@ -107,34 +106,25 @@ contract Crowdfunding {
         campaign.status = _status;
     }
 
-    function donateToCampaign(uint256 _campaignId)
-        public
-        payable
-        onlyRole(Auth.Role.Donor)
-    {
-        require(
-            _campaignId > 0 && _campaignId <= campaignIdCounter,
-            "Invalid campaign ID"
-        );
-        Campaign storage campaign = campaigns[_campaignId - 1];
+    function donateToCampaign(uint256 _campaignId) public payable {
+        Campaign storage campaign = campaigns[_campaignId];
+
+        require(_campaignId <= campaignIdCounter, "Invalid campaign ID");
         require(
             campaign.status == Status.Valid,
             "Campaign status is not Valid"
         );
+        // Update the campaign's raisedAmount and donors
+        campaign.raisedAmount += msg.value;
+        campaign.donors.push(msg.sender);
 
         // Mint a new Donation NFT for the donor
         nftContract.mintDonationNFT(msg.sender, donationIdCounter);
-
         // Create a new Donation and associate it with the NFT
         donations.push(
             Donation(donationIdCounter, msg.sender, msg.value, _campaignId)
         );
         donationIdCounter++;
-
-        // Update the campaign's raisedAmount and donors
-        campaign.raisedAmount += msg.value;
-        campaign.donors.push(msg.sender);
-
         // Transfer the donated ether to the campaign's creator
         payable(campaign.creator).transfer(msg.value);
     }

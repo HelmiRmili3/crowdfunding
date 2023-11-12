@@ -8,7 +8,7 @@ import React, {
 import { CrowdFundingContract } from "../utils/contracts";
 import { uploadFileToPinata } from "../apis/pinata";
 import { useAuth } from "./authContext";
-import { parseCampains } from "../utils/helper";
+import { parseCampains, customFilterAssociation } from "../utils/helper";
 const AssociationContext = createContext();
 
 export function useAssociation() {
@@ -20,13 +20,15 @@ export const AssociationProvider = ({ children }) => {
   const [campaigns, setcampaigns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const create = async (comapin, pdfFile) => {
+  const createProject = async (comapin, pdfFile) => {
     setIsLoading(true);
     if (comapin) {
       const options = {
         from: actor.address,
         gas: 2000000,
       };
+      // const period = comapin.period * 86400;
+      // const amount = comapin.amount * 1000000000 * 1000000000;
       if (pdfFile) {
         console.log(pdfFile);
         const ipfsHash = await uploadFileToPinata(pdfFile);
@@ -67,7 +69,9 @@ export const AssociationProvider = ({ children }) => {
       .getAllCampaigns()
       .call(options)
       .then((response) => {
-        setcampaigns(parseCampains(response));
+        setcampaigns(
+          customFilterAssociation(parseCampains(response), actor.address)
+        );
       })
       .catch((error) => {
         console.error("Error while creating actor:", error);
@@ -80,7 +84,7 @@ export const AssociationProvider = ({ children }) => {
 
   return (
     <AssociationContext.Provider
-      value={{ create, campaigns, isLoading }}
+      value={{ createProject, campaigns, isLoading }}
     >
       {children}
     </AssociationContext.Provider>

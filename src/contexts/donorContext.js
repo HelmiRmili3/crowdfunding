@@ -1,3 +1,4 @@
+import web3 from "web3";
 import React, {
   createContext,
   useContext,
@@ -6,7 +7,7 @@ import React, {
   useEffect,
 } from "react";
 import { useAuth } from "./authContext";
-import { parseCampains } from "../utils/helper";
+import { parseCampains, customFilter } from "../utils/helper";
 import { CrowdFundingContract } from "../utils/contracts";
 const DonorContext = createContext();
 export function useDonor() {
@@ -17,7 +18,24 @@ export const DonorProvider = ({ children }) => {
   const { actor } = useAuth();
   const [campaigns, setcampaigns] = useState([]);
 
-  const donateTo = () => {
+  const donateTo = async (project) => {
+    const donationAmount = web3.utils.toWei("0.001", "ether"); // Convert 1 ETH to wei
+
+    const options = {
+      value: donationAmount, // Specify the donation amount in wei
+      from: actor.address,
+      to: project.creator,
+      gas: 2000000,
+    };
+    await CrowdFundingContract.methods
+      .donateToCampaign(project.id)
+      .send(options) // Use "send" instead of "call" to send the transaction
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("Error while donating to campaign:", error);
+      });
     console.log("handle donate clicked");
   };
 
@@ -30,7 +48,7 @@ export const DonorProvider = ({ children }) => {
       .getAllCampaigns()
       .call(options)
       .then((response) => {
-        setcampaigns(parseCampains(response));
+        setcampaigns(customFilter(parseCampains(response), 2n));
       })
       .catch((error) => {
         console.error("Error while creating actor:", error);

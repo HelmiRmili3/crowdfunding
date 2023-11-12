@@ -20,7 +20,7 @@ export const AdminProvider = ({ children }) => {
   const [actors, setActors] = useState({});
   const [Campaigns, setCampaigns] = useState([]);
   const { actor } = useAuth();
-  
+
   const getComapains = useCallback(() => {
     const options = {
       from: actor.address,
@@ -92,7 +92,7 @@ export const AdminProvider = ({ children }) => {
   }, [create, getComapains]);
 
   return (
-    <AdminContext.Provider value={{ actors, create,Campaigns }}>
+    <AdminContext.Provider value={{ actors, create, Campaigns }}>
       {children}
     </AdminContext.Provider>
   );

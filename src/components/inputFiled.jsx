@@ -9,10 +9,12 @@ const InputField = ({ label, name, type, value, onChange }) => {
       <input
         type={type}
         id={name}
+        min={0}
         name={name}
         value={value}
         onChange={onChange}
         className="mt-1 p-2 w-full border rounded"
+        
       />
     </div>
   );

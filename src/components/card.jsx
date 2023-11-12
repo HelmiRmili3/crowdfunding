@@ -1,4 +1,5 @@
-import React from "react";
+import React, { }from 'react';
+
 import { truncateAddress } from "../utils/helper";
 function Card({
   key,
@@ -12,29 +13,32 @@ function Card({
   address,
   onClick,
 }) {
+ 
+  const progress = Math.round(amount - raisedAmount) + 1;
+  console.log(progress);
   return (
-    <div key={key}
-      className="max-w-xs mx-auto bg-gray-50 rounded-lg overflow-hidden shadow-lg mt-5 border"
+    <div
+      key={key}
+      className=" mx-auto bg-gray-50 rounded-lg overflow-hidden shadow-lg mt-5 border"
       onClick={onClick}
     >
-      <img
-        src={imageUrl}
-        alt="Project"
-        className="w-full h-48 object-cover"
-      />
+      <img src={imageUrl} alt="Project" className="w-full h-48 object-cover" />
       <div className="px-4 py-2">
         <div className="grid grid-cols-1 gap-2">
           <div className="text-gray-600">
+            <p>Domain</p>
             <p>{domain}</p>
           </div>
 
-          <div className="font-bold">
+          <div >
+            <h1 className="font-bold">Title</h1>
             <p>{title}</p>
           </div>
 
-          <div className="text-sm text-gray-700">
+          {/* <div className="text-sm text-gray-700">
+            <h1>Description</h1>
             <p>{description}</p>
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-2 gap-2">
             <div className="grid grid-rows-2">
@@ -67,15 +71,16 @@ function Card({
 
             <div className="flex-1">
               <p>Association</p>
-              <p className="text-sm text-gray-700">{truncateAddress(address)}</p>
+              <p className="text-sm text-gray-700">
+                {truncateAddress(address)}
+              </p>
             </div>
           </div>
         </div>
       </div>
-
       <div className="mt-0">
-        <div className="w-full h-1 bg-gray-200 ">
-          <div className="w-1/2 h-1 bg-blue-500 "></div>
+        <div className="w-full h-1 bg-gray-200">
+          <div className={`w-${progress} h-1 bg-blue-500`}></div>
         </div>
       </div>
     </div>

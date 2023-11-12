@@ -26,11 +26,6 @@ function Login() {
 
   return (
     <form>
-      <h1>association1</h1>
-      <h1>admin</h1>
-      <h1>donor1</h1>
-      <h1>evaluator1</h1>
-    
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center border rounded-xl bg-gray-50 p-4 min-h-32 justify-center ">
           <h1 className="text-3xl font-bold mb-6">Login</h1>

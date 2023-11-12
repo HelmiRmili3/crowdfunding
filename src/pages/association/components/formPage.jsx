@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import InputField from "../../../components/inputFiled";
-const FormPage = ({ isOpen, onClose, create }) => {
+import { useAssociation } from "../../../contexts/associationContext";
+const FormPage = ({ isOpen, onClose }) => {
+  const { createProject } = useAssociation();
   const [pdfFile, setPdfFile] = useState();
   const [comapin, setComapin] = useState({
     field: "",
@@ -21,15 +23,9 @@ const FormPage = ({ isOpen, onClose, create }) => {
     setPdfFile(selectedFile);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (comapin) {
-      await create(comapin, pdfFile);
-      onClose();
-    } else {
-      console.log("Data not found");
-    }
+    createProject(comapin, pdfFile);
   };
 
   if (!isOpen) {
@@ -102,6 +98,7 @@ const FormPage = ({ isOpen, onClose, create }) => {
             </div>
           </form>
         </div>
+      
         <button
           onClick={onClose}
           className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700"

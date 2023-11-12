@@ -1,5 +1,5 @@
 import React from "react";
-
+import OpenPdfButton from "./pdfPage";
 const Compain = ({
   amount,
   creator,
@@ -29,8 +29,10 @@ const Compain = ({
     <>
       <div className="fixed top-0 left-0 flex items-center justify-center w-screen h-screen bg-opacity-50 bg-gray-600">
         <div className="bg-white p-4 w-5/6 rounded shadow-md overflow-hidden">
-          <button onClick={closeModal}>close</button>
-
+          {/* <button onClick={closeModal}>close</button> */}
+          <button onClick={closeModal}>
+            <img src={require("../assets/close-42-48.png")} alt="close" />
+          </button>
           <div className="max-h-96 overflow-y-auto">
             <img
               src={imageUrl}
@@ -60,7 +62,9 @@ const Compain = ({
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-600">Raised of {amount} ETH</p>
+                      <p className="text-gray-600">
+                        Raised of {amount} ETH
+                      </p>
                     </div>
                   </div>
 
@@ -84,7 +88,7 @@ const Compain = ({
                     ))}
                   </ul>
                 </div>
-
+                <OpenPdfButton ipfsHash={dataUrl} />
                 <div className="flex bg-gray-200 rounded-lg p-2">
                   <div className="w-1/6">
                     <img

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import web3 from "web3";
 
 import Card from "./card";
 import CustomButtonAdd from "./customButtonAdd";
@@ -7,11 +8,9 @@ import Compain from "./compain";
 import CustomText from "./customText";
 import { getRoleName } from "../utils/helper";
 import { useAuth } from "../contexts/authContext";
-import { useEvaluator } from "../contexts/evaluatorContext";
 import Loading from "./loading";
-function CompainsGrid({ campaigns, isLoading, children }) {
-  const { actor } = useAuth();
-  const { setCompain } = useEvaluator();
+function CompainsGrid({ campaigns, isLoading, setProject, children }) {
+  const { actor, setCompain } = useAuth();
   const [closed, setClosed] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [campaign, setCampaign] = useState([]);
@@ -21,12 +20,15 @@ function CompainsGrid({ campaigns, isLoading, children }) {
     setModalIsOpen(!modalIsOpen);
     setCampaign(data);
     setCompain(data);
+    if (actor.role === 3n || actor.role === 2n) {
+      setProject(data);
+    }
   };
 
   const close = () => {
     setClosed(!closed);
   };
-
+ 
   return isLoading ? (
     <Loading />
   ) : (
@@ -36,32 +38,40 @@ function CompainsGrid({ campaigns, isLoading, children }) {
         {getRoleName(actor.role) === "association" ? (
           <>
             <CustomButtonAdd onOpen={close} />
+            <FormPage isOpen={closed} onClose={close} />
           </>
         ) : (
           <></>
         )}
       </div>
-      <ul className="mx-auto max-w-5xl mb-10 ml-1/6 mr-1/6 flex flex-wrap -mx-4">
-        {campaigns.map((campaign, index) => (
-          <li key={index} className="w-2/6 px-4 mb-8">
-            <>
-              <Card
-                imageUrl={campaign.imageUrl}
-                domain={campaign.domain}
-                title={campaign.title}
-                description={campaign.description}
-                raisedAmount={campaign.raisedAmount}
-                amount={campaign.amount}
-                daysLeft={campaign.endDate}
-                address={campaign.creator}
-                children={children}
-                onClick={() => handleCard(campaign)}
-              />
-            </>
-          </li>
-        ))}
-      </ul>
-      <FormPage isOpen={closed} onClose={close} />
+      {campaigns.length === 0 ? (
+        <>
+          <h1>No Campains founded !</h1>
+        </>
+      ) : (
+        <>
+          <ul className="mx-auto max-w-5xl mb-10 ml-1/6 mr-1/6 flex flex-wrap -mx-4">
+            {campaigns.map((campaign, index) => (
+              <li key={index} className="w-2/6 px-4 mb-8">
+                <>
+                  <Card
+                    imageUrl={campaign.imageUrl}
+                    domain={campaign.domain}
+                    title={campaign.title}
+                    description={campaign.description}
+                    raisedAmount={campaign.raisedAmount.toString()}
+                    amount={campaign.amount.toString()}
+                    daysLeft={campaign.endDate.toString()}
+                    address={campaign.creator}
+                    children={children}
+                    onClick={() => handleCard(campaign)}
+                  />
+                </>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
       <Compain
         amount={campaign.amount}
         creator={campaign.creator}
