@@ -10,6 +10,7 @@ import { AuthContract } from "../utils/contracts";
 import { useAuth } from "./authContext";
 import { parseActors, parseCampains } from "../utils/helper";
 import { CrowdFundingContract } from "../utils/contracts";
+
 const AdminContext = createContext();
 
 export function useAdmin() {
@@ -36,6 +37,18 @@ export const AdminProvider = ({ children }) => {
         console.error("Error while creating actor:", error);
       });
   }, [actor.address]);
+  const getActors = useCallback(async () => {
+    getComapains();
+    const options = {
+      gas: 20000000,
+    };
+    try {
+      const response = await AuthContract.methods.getAllActors().call(options);
+      setActors(parseActors(response));
+    } catch (error) {
+      console.error("Error while getting actors:", error);
+    }
+  }, [getComapains]);
 
   const create = useCallback(
     (data) => {
@@ -59,6 +72,7 @@ export const AdminProvider = ({ children }) => {
             .send(options)
             .then((response) => {
               console.log(response);
+              getActors(); // Call getActors when create is called
             })
             .catch((error) => {
               console.error("Error while creating actor:", error);
@@ -70,26 +84,16 @@ export const AdminProvider = ({ children }) => {
         console.error("Error in create function:", error);
       }
     },
-    [actor]
+    [actor, getActors]
   );
 
   useEffect(() => {
-    const getActors = async () => {
-      getComapains();
-      const options = {
-        gas: 20000000,
-      };
-      try {
-        const response = await AuthContract.methods
-          .getAllActors()
-          .call(options);
-        setActors(parseActors(response));
-      } catch (error) {
-        console.error("Error while getting actors:", error);
-      }
+    const fetchData = async () => {
+      await getActors(); // Call getActors on initial render
     };
-    getActors();
-  }, [create, getComapains]);
+
+    fetchData();
+  }, [getComapains, getActors]); // Add getActors to the dependency array
 
   return (
     <AdminContext.Provider value={{ actors, create, Campaigns }}>

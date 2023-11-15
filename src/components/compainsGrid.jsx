@@ -1,22 +1,29 @@
 import React, { useState } from "react";
-import web3 from "web3";
 
-import Card from "./card";
 import CustomButtonAdd from "./customButtonAdd";
 import FormPage from "../pages/association/components/formPage";
-import Compain from "./compain";
 import CustomText from "./customText";
+import Compain from "./compain";
+import Loading from "./loading";
+import Card from "./card";
+
 import { getRoleName } from "../utils/helper";
 import { useAuth } from "../contexts/authContext";
-import Loading from "./loading";
-function CompainsGrid({ campaigns, isLoading, setProject, children }) {
+
+function CompainsGrid({
+  campaigns,
+  isLoading,
+  setProject,
+  children,
+  modalIsOpen,
+  setModalIsOpen,
+}) {
   const { actor, setCompain } = useAuth();
   const [closed, setClosed] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [campaign, setCampaign] = useState([]);
 
   const handleCard = (data) => {
-    console.log(data);
+    //console.log(data);
     setModalIsOpen(!modalIsOpen);
     setCampaign(data);
     setCompain(data);
@@ -28,31 +35,32 @@ function CompainsGrid({ campaigns, isLoading, setProject, children }) {
   const close = () => {
     setClosed(!closed);
   };
- 
+
   return isLoading ? (
     <Loading />
   ) : (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 pt-40 ">
       <div className="flex-row flex w-3/4 px-8">
-        <CustomText text={"All Compains"} count={campaigns.length} />
-        {getRoleName(actor.role) === "association" ? (
+        <CustomText text={"All Campagnes"} count={campaigns.length} />
+        {getRoleName(actor.role) === "association" && (
           <>
             <CustomButtonAdd onOpen={close} />
             <FormPage isOpen={closed} onClose={close} />
           </>
-        ) : (
-          <></>
         )}
       </div>
       {campaigns.length === 0 ? (
-        <>
-          <h1>No Campains founded !</h1>
-        </>
+         <div className="flex items-center justify-center h-full">
+         <div className="text-center">
+           <p className="text-gray-600 text-lg mb-4">No data available</p>
+           {/* You can add more elements or customize the message based on your needs */}
+         </div>
+       </div>
       ) : (
         <>
           <ul className="mx-auto max-w-5xl mb-10 ml-1/6 mr-1/6 flex flex-wrap -mx-4">
             {campaigns.map((campaign, index) => (
-              <li key={index} className="w-2/6 px-4 mb-8">
+              <li key={index} className="w-1/3 px-4 mb-4">
                 <>
                   <Card
                     imageUrl={campaign.imageUrl}

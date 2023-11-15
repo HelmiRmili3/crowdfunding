@@ -8,7 +8,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract DonationNFT is ERC721, Ownable {
     constructor() ERC721("DonationNFT", "DNFT") Ownable(msg.sender) {}
 
-    function mintDonationNFT(address to, uint256 tokenId) external onlyOwner {
+    function mintDonationNFT(
+        address to,
+        uint256 tokenId
+    ) external  onlyOwner {
         _mint(to, tokenId);
     }
 }
@@ -53,17 +56,11 @@ contract Crowdfunding {
     DonationNFT public nftContract;
     Auth public authContract;
 
+    event DonationMade(uint256 campaignId, address donor, uint256 amount);
+
     constructor(address _authContractAddress) {
         authContract = Auth(_authContractAddress);
         nftContract = new DonationNFT();
-    }
-
-    modifier onlyRole(Auth.Role role) {
-        require(
-            authContract.getActorRole(msg.sender) == role,
-            "Owner permission required"
-        );
-        _;
     }
 
     function createCampaign(
@@ -106,27 +103,55 @@ contract Crowdfunding {
         campaign.status = _status;
     }
 
-    function donateToCampaign(uint256 _campaignId) public payable {
-        Campaign storage campaign = campaigns[_campaignId];
+    function donate(uint256 _id) public payable {
+        Campaign storage campaign = campaigns[_id];
 
-        require(_campaignId <= campaignIdCounter, "Invalid campaign ID");
+        require(_id <= campaignIdCounter, "Invalid campaign ID");
         require(
             campaign.status == Status.Valid,
             "Campaign status is not Valid"
         );
+        require(
+            campaign.raisedAmount < campaign.amount,
+            "Campaign is already fully funded"
+        );
+        require(
+            !isDonorInCampaign(campaign.donors, msg.sender),
+            "Donor has already donated to this campaign"
+        );
+
         // Update the campaign's raisedAmount and donors
         campaign.raisedAmount += msg.value;
         campaign.donors.push(msg.sender);
 
         // Mint a new Donation NFT for the donor
-        nftContract.mintDonationNFT(msg.sender, donationIdCounter);
+        nftContract.mintDonationNFT(
+            msg.sender,
+            donationIdCounter
+        );
         // Create a new Donation and associate it with the NFT
         donations.push(
-            Donation(donationIdCounter, msg.sender, msg.value, _campaignId)
+            Donation(donationIdCounter, msg.sender, msg.value, _id)
         );
         donationIdCounter++;
+
+        // Emit an event to indicate that a donation has been made
+        emit DonationMade(_id, msg.sender, msg.value);
+
         // Transfer the donated ether to the campaign's creator
         payable(campaign.creator).transfer(msg.value);
+    }
+
+    function isDonorInCampaign(
+        address[] memory donors,
+        address donor
+    ) internal pure returns (bool) {
+        for (uint256 i = 0; i < donors.length; i++) {
+            if (donors[i] == donor) {
+                return true;
+            }
+        }
+        return false;
     }
 
     function getAllCampaigns() public view returns (Campaign[] memory) {

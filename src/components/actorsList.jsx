@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import CustomButtonAdd from "./customButtonAdd";
+
 import CardItem from "./customItem";
 import CustomText from "./customText";
 import PopupForm from "./popupForm";
 import { useAdmin } from "../contexts/adminContext";
+import { getRoleName,capitalizeFirstLetter } from "../utils/helper";
+
 export function ActorsList({ role }) {
   const { actors } = useAdmin();
   const data = actors.filter((actor) => actor.role === role);
@@ -16,10 +19,11 @@ export function ActorsList({ role }) {
   const close = () => {
     setClosed(!closed);
   };
+ 
   return (
     <div className="min-h-screen flex-col flex items-center justify-center bg-gray-100 ">
       <div className="flex-row flex  w-3/4">
-        <CustomText text={"Actors"} count={data.length} />
+        <CustomText text={capitalizeFirstLetter(getRoleName(role))} count={data.length} />
         <CustomButtonAdd onOpen={close} />
       </div>
       <div className="flex-row flex  w-3/4">

@@ -2,7 +2,7 @@ import React from "react";
 import CustomLink from "./customLink";
 import CustomButton from "./customButton";
 import { useAuth } from "../contexts/authContext";
-import { getRoleName } from "../utils/helper";
+import { getRoleName,capitalizeFirstLetter } from "../utils/helper";
 function Navbar({ customLinks }) {
   const { actor } = useAuth();
   return (
@@ -19,7 +19,7 @@ function Navbar({ customLinks }) {
               alt="Flowbite Logo"
             />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              {getRoleName(actor.role)}
+              {capitalizeFirstLetter(getRoleName(actor.role))}
             </span>
           </a>
           <div className="flex md:order-2">

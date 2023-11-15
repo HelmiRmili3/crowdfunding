@@ -27,8 +27,6 @@ export const AssociationProvider = ({ children }) => {
         from: actor.address,
         gas: 2000000,
       };
-      // const period = comapin.period * 86400;
-      // const amount = comapin.amount * 1000000000 * 1000000000;
       if (pdfFile) {
         console.log(pdfFile);
         const ipfsHash = await uploadFileToPinata(pdfFile);

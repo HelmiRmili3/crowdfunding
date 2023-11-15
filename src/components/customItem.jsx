@@ -6,7 +6,7 @@ const CardItem = ({
   status,
   onToggleStatus,
 }) => {
-  const isAccepted = status === "accepted";
+ // const isAccepted = status === "accepted";
 
   return (
     <div className="bg-white shadow-md rounded-full p-2 m-2 ">
@@ -22,7 +22,7 @@ const CardItem = ({
           <p className="text-xl font-semibold">{walletAddress}</p>
         </div>
         <div>
-          <label className="flex items-center cursor-pointer">
+          {/* <label className="flex items-center cursor-pointer">
             <div
               className={`w-16 h-8 flex items-center justify-center rounded-full ${
                 isAccepted ? "bg-green-500" : "bg-red-500"
@@ -43,7 +43,7 @@ const CardItem = ({
               checked={isAccepted}
               onChange={onToggleStatus}
             />
-          </label>
+          </label> */}
         </div>
       </div>
     </div>

@@ -26,9 +26,9 @@ export const parseCampain = (response) => {
   const web3 = new Web3(new Web3.providers.HttpProvider(providerUrl));
   const calculateDaysDifference = (timestamp) => {
     const currentTimestamp = Math.floor(Date.now() / 1000); // Get current timestamp in seconds
-    console.log("current timestamp in secondes",currentTimestamp);
+    //console.log("current timestamp in secondes",currentTimestamp);
     const endDate = Number(timestamp); // Convert the provided timestamp to a number
-    console.log("end date in secondes",timestamp);
+    //console.log("end date in secondes",timestamp);
     const timeDifferenceInSeconds = endDate - currentTimestamp;
     const daysDifference = Math.ceil(timeDifferenceInSeconds / (60 * 60 * 24)); // Convert seconds to days
 
@@ -92,4 +92,8 @@ export const customFilter = (data, status) => {
 export const customFilterAssociation = (data, creator) => {
   const filterdData = data.filter((compain) => compain.creator === creator);
   return filterdData;
+};
+
+export const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 };

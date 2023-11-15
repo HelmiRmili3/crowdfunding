@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import OpenPdfButton from "./pdfPage";
 const Compain = ({
   amount,
@@ -18,6 +18,10 @@ const Compain = ({
   modalIsOpen,
   setModalIsOpen,
 }) => {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    setProgress(Math.round(amount - raisedAmount) + 1);
+  }, [amount, raisedAmount]);
   const closeModal = () => {
     setModalIsOpen(false);
   };
@@ -29,7 +33,6 @@ const Compain = ({
     <>
       <div className="fixed top-0 left-0 flex items-center justify-center w-screen h-screen bg-opacity-50 bg-gray-600">
         <div className="bg-white p-4 w-5/6 rounded shadow-md overflow-hidden">
-          {/* <button onClick={closeModal}>close</button> */}
           <button onClick={closeModal}>
             <img src={require("../assets/close-42-48.png")} alt="close" />
           </button>
@@ -62,9 +65,7 @@ const Compain = ({
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-600">
-                        Raised of {amount} ETH
-                      </p>
+                      <p className="text-gray-600">Raised of {amount} ETH</p>
                     </div>
                   </div>
 
@@ -83,7 +84,7 @@ const Compain = ({
                   <ul>
                     {donors.map((address, index) => (
                       <li className="text-green-600" key={index}>
-                        {address}
+                        {index + " : " + address}
                       </li>
                     ))}
                   </ul>
@@ -109,7 +110,7 @@ const Compain = ({
           </div>
           <div className="mt-0">
             <div className="w-full h-1 bg-gray-200">
-              <div className="w-1/2 h-1 bg-blue-500"></div>
+              <div className={`w-${progress} h-1 bg-blue-500`}></div>
             </div>
           </div>
         </div>

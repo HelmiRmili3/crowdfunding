@@ -18,25 +18,22 @@ export const DonorProvider = ({ children }) => {
   const { actor } = useAuth();
   const [campaigns, setcampaigns] = useState([]);
 
-  const donateTo = async (project) => {
-    const donationAmount = web3.utils.toWei("0.001", "ether"); // Convert 1 ETH to wei
-
-    const options = {
-      value: donationAmount, // Specify the donation amount in wei
-      from: actor.address,
-      to: project.creator,
-      gas: 2000000,
-    };
-    await CrowdFundingContract.methods
-      .donateToCampaign(project.id)
-      .send(options) // Use "send" instead of "call" to send the transaction
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error("Error while donating to campaign:", error);
-      });
-    console.log("handle donate clicked");
+  const donateTo = async (project, amount) => {
+    const donationAmount = web3.utils.toWei(amount, "ether"); // Convert 1 ETH to wei
+    try {
+      const response = await CrowdFundingContract.methods
+        .donate(project.id)
+        .send({
+          from: actor.address,
+          value: donationAmount, // Specify the donation amount in wei
+          gas: 600000,
+        });
+      console.log(response);
+      getComapains();
+    } catch (error) {
+      console.error("Error while donating to campaign:", error);
+    }
+    //console.log("handle donate clicked");
   };
 
   const getComapains = useCallback(() => {

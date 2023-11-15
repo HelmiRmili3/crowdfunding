@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import web3 from "web3";
 import InputField from "../../../components/inputFiled";
 import { useAssociation } from "../../../contexts/associationContext";
 const FormPage = ({ isOpen, onClose }) => {
@@ -25,7 +26,15 @@ const FormPage = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createProject(comapin, pdfFile);
+    const data = {
+      field: comapin.field,
+      title: comapin.title,
+      description: comapin.description,
+      period: comapin.period * 86400,
+      amount: web3.utils.toWei(comapin.amount, "ether"),
+      imageUrl: comapin.imageUrl,
+    };
+    createProject(data, pdfFile);
   };
 
   if (!isOpen) {
@@ -60,14 +69,14 @@ const FormPage = ({ isOpen, onClose }) => {
               onChange={handleInputChange}
             />
             <InputField
-              label="Period"
+              label="Period (day)"
               name="period"
               type="number"
               value={comapin.period}
               onChange={handleInputChange}
             />
             <InputField
-              label="Amount"
+              label="Amount (eth)"
               name="amount"
               type="number"
               value={comapin.amount}
@@ -98,7 +107,7 @@ const FormPage = ({ isOpen, onClose }) => {
             </div>
           </form>
         </div>
-      
+
         <button
           onClick={onClose}
           className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700"

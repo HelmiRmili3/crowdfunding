@@ -1,4 +1,4 @@
-import React, { }from 'react';
+import React, { useState, useEffect } from "react";
 
 import { truncateAddress } from "../utils/helper";
 function Card({
@@ -13,40 +13,32 @@ function Card({
   address,
   onClick,
 }) {
- 
-  const progress = Math.round(amount - raisedAmount) + 1;
-  console.log(progress);
+  const [progress, setProgress] = useState(1);
+  useEffect(() => {
+    setProgress(Math.round(amount - raisedAmount) + 1);
+  }, [amount, raisedAmount]);
   return (
     <div
       key={key}
-      className=" mx-auto bg-gray-50 rounded-lg overflow-hidden shadow-lg mt-5 border"
+      className="w-300 mx-auto bg-gray-50 rounded-lg overflow-hidden shadow-lg mt-5 border"
       onClick={onClick}
     >
       <img src={imageUrl} alt="Project" className="w-full h-48 object-cover" />
       <div className="px-4 py-2">
         <div className="grid grid-cols-1 gap-2">
           <div className="text-gray-600">
-            <p>Domain</p>
             <p>{domain}</p>
           </div>
-
-          <div >
-            <h1 className="font-bold">Title</h1>
+          <div className="font-bold">
             <p>{title}</p>
           </div>
-
-          {/* <div className="text-sm text-gray-700">
-            <h1>Description</h1>
-            <p>{description}</p>
-          </div> */}
-
           <div className="grid grid-cols-2 gap-2">
             <div className="grid grid-rows-2">
               <div>
                 <p className="text-green-500 font-bold ">{raisedAmount} ETH</p>
               </div>
               <div>
-                <p className="text-gray-600">Raised of {amount} ETH</p>
+                <p className="text-gray-600"> Raised of {amount}</p>
               </div>
             </div>
 
@@ -81,6 +73,7 @@ function Card({
       <div className="mt-0">
         <div className="w-full h-1 bg-gray-200">
           <div className={`w-${progress} h-1 bg-blue-500`}></div>
+          {/* <div className={`w-1 h-1 bg-blue-500`}></div>  */}
         </div>
       </div>
     </div>
