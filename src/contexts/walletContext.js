@@ -29,8 +29,6 @@ export const WalletProvider = ({ children }) => {
           setAddress(accounts[0]);
           setErrors(null);
           setChanged(true);
-          //console.log("Account changed to", accounts[0]);
-          //console.log(Auth_Address);
         });
       } else {
         setErrors("MetaMask not detected");
@@ -40,6 +38,8 @@ export const WalletProvider = ({ children }) => {
       setErrors("Connect your wallet");
     }
   }, []);
+
+
 
   useEffect(() => {
     connectWallet();

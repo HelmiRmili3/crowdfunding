@@ -10,7 +10,7 @@ import { AuthContract } from "../utils/contracts";
 import { useAuth } from "./authContext";
 import { parseActors, parseCampains } from "../utils/helper";
 import { CrowdFundingContract } from "../utils/contracts";
-
+import { useWallet } from "./walletContext";
 const AdminContext = createContext();
 
 export function useAdmin() {
@@ -21,10 +21,11 @@ export const AdminProvider = ({ children }) => {
   const [actors, setActors] = useState({});
   const [Campaigns, setCampaigns] = useState([]);
   const { actor } = useAuth();
+  const { address } = useWallet();
 
   const getComapains = useCallback(() => {
     const options = {
-      from: actor.address,
+      from: address,
       gas: 2000000,
     };
     CrowdFundingContract.methods
@@ -36,7 +37,7 @@ export const AdminProvider = ({ children }) => {
       .catch((error) => {
         console.error("Error while creating actor:", error);
       });
-  }, [actor.address]);
+  }, [address]);
   const getActors = useCallback(async () => {
     getComapains();
     const options = {

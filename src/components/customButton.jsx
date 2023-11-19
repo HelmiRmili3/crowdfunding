@@ -2,11 +2,8 @@ import React, { useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { truncateAddress } from "../utils/helper";
 const CustomButton = () => {
-  const { setIsLoggedIn, actor } = useAuth();
+  const { handleLogout, actor } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const Logout = () => {
-    setIsLoggedIn(false);
-  };
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -50,7 +47,7 @@ const CustomButton = () => {
             </button>
             <button
               className="block px-4 py-2 w-full text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-              onClick={Logout}
+              onClick={handleLogout}
             >
               Logout
             </button>

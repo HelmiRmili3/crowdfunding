@@ -8,14 +8,16 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({ children }) => {
-  const { address, changed, setChanged, connectWallet } = useWallet();
+  const { address, changed, setChanged } = useWallet();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [actor, setActor] = useState();
   const [compain, setCompain] = useState();
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    setIsLoggedIn(!isLoggedIn);
+  };
   useEffect(() => {
-    connectWallet();
+    //connectWallet();
     const fetchUser = async () => {
       if (address) {
         try {
@@ -27,13 +29,15 @@ export const AuthProvider = ({ children }) => {
           console.log(error);
         }
       } else {
-        //console.log("address is null.");
+        console.log("address is null.");
       }
     };
     fetchUser();
-    setChanged(false);
-    setIsLoggedIn(false);
-  }, [address, changed, setChanged, connectWallet]);
+    if (changed) {
+      setIsLoggedIn(false);
+      setChanged(false);
+    }
+  }, [address, changed, setChanged]);
 
   return (
     <AuthContext.Provider

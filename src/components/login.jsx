@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { SHA256 } from "crypto-js";
-
 import { useAuth } from "../contexts/authContext";
 import { useWallet } from "../contexts/walletContext";
 import { useNavigate } from "react-router-dom";
 import { getRoleName } from "../utils/helper";
+import { SHA256 } from "crypto-js";
 function Login() {
-  const navigate = useNavigate();
-  const { actor, setIsLoggedIn } = useAuth();
+  const {  actor ,setIsLoggedIn} = useAuth();
   const { address } = useWallet();
-
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
+  };
 
   const login = () => {
     const hashedPassword = SHA256(password).toString();
@@ -23,7 +25,6 @@ function Login() {
       console.log("User password is wrong");
     }
   };
-
   return (
     <form>
       <div className="min-h-screen flex items-center justify-center">
@@ -43,7 +44,7 @@ function Login() {
               className="w-full p-2 border rounded"
               placeholder="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePassword}
             />
           </div>
           <button
