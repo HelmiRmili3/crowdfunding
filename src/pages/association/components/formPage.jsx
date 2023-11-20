@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import web3 from "web3";
 import InputField from "../../../components/inputFiled";
+
 import { useAssociation } from "../../../contexts/associationContext";
+
 const FormPage = ({ isOpen, onClose }) => {
-  const { createProject } = useAssociation();
+  const { createProject, setAlert } = useAssociation();
   const [pdfFile, setPdfFile] = useState();
   const [comapin, setComapin] = useState({
     field: "",
@@ -14,6 +16,22 @@ const FormPage = ({ isOpen, onClose }) => {
     imageUrl: "",
   });
 
+  const showAlert = (status, message) => {
+    setAlert({
+      status: status,
+      message: message,
+      visible: true,
+    });
+
+    // Hide the alert after 2 seconds
+    setTimeout(() => {
+      setAlert({
+        status: null,
+        message: "",
+        visible: false,
+      });
+    }, 2000);
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setComapin({ ...comapin, [name]: value });
@@ -22,9 +40,10 @@ const FormPage = ({ isOpen, onClose }) => {
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setPdfFile(selectedFile);
+    //console.log(selectedFile);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       field: comapin.field,
@@ -34,7 +53,14 @@ const FormPage = ({ isOpen, onClose }) => {
       amount: web3.utils.toWei(comapin.amount, "ether"),
       imageUrl: comapin.imageUrl,
     };
-    createProject(data, pdfFile);
+
+    try {
+      await createProject(data, pdfFile);
+      showAlert("success", "Campaign created successfully.");
+    } catch (error) {
+      showAlert("error", "Error creating campaign. Please try again.");
+    }
+     onClose();
   };
 
   if (!isOpen) {
@@ -93,7 +119,7 @@ const FormPage = ({ isOpen, onClose }) => {
               label="PDF File"
               name="pdfFile"
               type="file"
-              value="" // Set value to an empty string
+              value=""
               onChange={handleFileChange}
             />
 

@@ -8,10 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract DonationNFT is ERC721, Ownable {
     constructor() ERC721("DonationNFT", "DNFT") Ownable(msg.sender) {}
 
-    function mintDonationNFT(
-        address to,
-        uint256 tokenId
-    ) external  onlyOwner {
+    function mintDonationNFT(address to, uint256 tokenId) external onlyOwner {
         _mint(to, tokenId);
     }
 }
@@ -72,6 +69,7 @@ contract Crowdfunding {
         string memory _imageUrl,
         string memory _dataUrl
     ) public {
+        experedCampaigns();
         campaigns.push(
             Campaign(
                 campaignIdCounter,
@@ -93,6 +91,7 @@ contract Crowdfunding {
     }
 
     function evaluateCampaign(uint256 _id, Status _status) public {
+        experedCampaigns();
         require(_id <= campaignIdCounter, "Invalid campaign ID");
         Campaign storage campaign = campaigns[_id];
         require(
@@ -104,6 +103,7 @@ contract Crowdfunding {
     }
 
     function donate(uint256 _id) public payable {
+        experedCampaigns();
         Campaign storage campaign = campaigns[_id];
 
         require(_id <= campaignIdCounter, "Invalid campaign ID");
@@ -125,14 +125,9 @@ contract Crowdfunding {
         campaign.donors.push(msg.sender);
 
         // Mint a new Donation NFT for the donor
-        nftContract.mintDonationNFT(
-            msg.sender,
-            donationIdCounter
-        );
+        nftContract.mintDonationNFT(msg.sender, donationIdCounter);
         // Create a new Donation and associate it with the NFT
-        donations.push(
-            Donation(donationIdCounter, msg.sender, msg.value, _id)
-        );
+        donations.push(Donation(donationIdCounter, msg.sender, msg.value, _id));
         donationIdCounter++;
 
         // Emit an event to indicate that a donation has been made
@@ -160,5 +155,16 @@ contract Crowdfunding {
 
     function getAllDonations() public view returns (Donation[] memory) {
         return donations;
+    }
+
+    function experedCampaigns() private {
+        for (uint256 i = 0; i <= campaignIdCounter; i++) {
+            if (
+                campaigns[i].endDate >= block.timestamp ||
+                campaigns[i].raisedAmount >= campaigns[i].amount
+            ) {
+                campaigns[i].status = Status.Done;
+            }
+        }
     }
 }

@@ -19,6 +19,11 @@ export const AssociationProvider = ({ children }) => {
   const { actor } = useAuth();
   const [campaigns, setcampaigns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [alert, setAlert] = useState({
+    status: null,
+    message: '',
+    visible: false,
+  });
 
   const createProject = async (comapin, pdfFile) => {
     setIsLoading(true);
@@ -82,7 +87,7 @@ export const AssociationProvider = ({ children }) => {
 
   return (
     <AssociationContext.Provider
-      value={{ createProject, campaigns, isLoading }}
+      value={{ createProject, campaigns, isLoading, alert, setAlert }}
     >
       {children}
     </AssociationContext.Provider>
