@@ -24,8 +24,7 @@ const PopupForm = ({ isOpen, onClose, role }) => {
       try {
         await create(formData);
         onClose();
-      } catch (error) {
-      }
+      } catch (error) {}
     } else {
       console.log("data not found");
     }

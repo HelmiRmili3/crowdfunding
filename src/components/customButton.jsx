@@ -3,11 +3,10 @@ import { useAuth } from "../contexts/authContext";
 import { truncateAddress } from "../utils/helper";
 const CustomButton = () => {
   const { handleLogout, actor } = useAuth();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   return (
     <div className="relative inline-block text-left">
       <div>

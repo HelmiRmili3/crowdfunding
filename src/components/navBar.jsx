@@ -2,7 +2,7 @@ import React from "react";
 import CustomLink from "./customLink";
 import CustomButton from "./customButton";
 import { useAuth } from "../contexts/authContext";
-import { getRoleName,capitalizeFirstLetter } from "../utils/helper";
+import { getRoleName, capitalizeFirstLetter } from "../utils/helper";
 function Navbar({ customLinks }) {
   const { actor } = useAuth();
   return (
@@ -23,7 +23,7 @@ function Navbar({ customLinks }) {
             </span>
           </a>
           <div className="flex md:order-2">
-            <CustomButton/>
+            <CustomButton />
           </div>
 
           <div

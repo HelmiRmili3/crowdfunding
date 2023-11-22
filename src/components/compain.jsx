@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import OpenPdfButton from "./pdfPage";
 const Compain = ({
   amount,
@@ -18,10 +18,11 @@ const Compain = ({
   modalIsOpen,
   setModalIsOpen,
 }) => {
-  const [progress, setProgress] = useState(0);
-  useEffect(() => {
-    setProgress(Math.round(amount - raisedAmount) + 1);
-  }, [amount, raisedAmount]);
+  // const [progress, setProgress] = useState(0);
+  // useEffect(() => {
+  //   setProgress(Math.round(amount - raisedAmount) + 1);
+  // }, [amount, raisedAmount]);
+  
   const closeModal = () => {
     setModalIsOpen(false);
   };
@@ -112,7 +113,7 @@ const Compain = ({
           </div>
           <div className="mt-0">
             <div className="w-full h-1 bg-gray-200">
-              <div className={`w-${progress} h-1 bg-blue-500`}></div>
+              <div className={`w-full h-1 bg-blue-500`}></div>
             </div>
           </div>
         </div>

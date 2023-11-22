@@ -50,12 +50,11 @@ function CompainsGrid({
         )}
       </div>
       {campaigns.length === 0 ? (
-         <div className="flex items-center justify-center h-full">
-         <div className="text-center">
-           <p className="text-gray-600 text-lg mb-4">No data available</p>
-           {/* You can add more elements or customize the message based on your needs */}
-         </div>
-       </div>
+        <div className="flex items-center justify-center h-full">
+          <div className="text-center">
+            <p className="text-gray-600 text-lg mb-4">No data available</p>
+          </div>
+        </div>
       ) : (
         <>
           <ul className="mx-auto max-w-5xl mb-10 ml-1/6 mr-1/6 flex flex-wrap -mx-4">

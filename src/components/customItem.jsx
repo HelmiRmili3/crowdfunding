@@ -6,7 +6,7 @@ const CardItem = ({
   status,
   onToggleStatus,
 }) => {
- // const isAccepted = status === "accepted";
+  // const isAccepted = status === "accepted";
 
   return (
     <div className="bg-white shadow-md rounded-full p-2 m-2 ">

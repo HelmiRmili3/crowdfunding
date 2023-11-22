@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { truncateAddress } from "../utils/helper";
 function Card({
@@ -6,17 +6,17 @@ function Card({
   imageUrl,
   domain,
   title,
-  description,
   raisedAmount,
   amount,
   daysLeft,
   address,
   onClick,
 }) {
-  const [progress, setProgress] = useState(1);
-  useEffect(() => {
-    setProgress(Math.round(amount - raisedAmount) + 1);
-  }, [amount, raisedAmount]);
+  // const [progress, setProgress] = useState(1);
+  // useEffect(() => {
+  //   setProgress(Math.round(amount - raisedAmount) + 1);
+  // }, [amount, raisedAmount]);
+
   return (
     <div
       key={key}
@@ -44,10 +44,14 @@ function Card({
 
             <div className="grid grid-rows-2 justify-end">
               <div>
-                <p className="text-green-500 font-bold ">{daysLeft >= 0 ? daysLeft : "Waiting" }</p>
+                <p className="text-green-500 font-bold ">
+                  {daysLeft >= 0 ? daysLeft : "Waiting"}
+                </p>
               </div>
               <div>
-                <p className="text-gray-600">Days left</p>
+                <p className="text-gray-600">
+                  {daysLeft >= 0 ? "Days left" : ""}
+                </p>
               </div>
             </div>
           </div>
@@ -72,8 +76,8 @@ function Card({
       </div>
       <div className="mt-0">
         <div className="w-full h-1 bg-gray-200">
-          <div className={`w-${progress} h-1 bg-blue-500`}></div>
-          {/* <div className={`w-1 h-1 bg-blue-500`}></div>  */}
+          {/* <div className={`w-${progress} h-1 bg-blue-500`}></div> */}
+          <div className={`w-full h-1 bg-blue-500`}></div>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useMatch,useResolvedPath, Link } from "react-router-dom";
+import { useMatch, useResolvedPath, Link } from "react-router-dom";
 
 function CustomLink({ to, children, ...props }) {
   const resolvedPath = useResolvedPath(to);
@@ -13,10 +13,7 @@ function CustomLink({ to, children, ...props }) {
   }`;
   return (
     <li>
-      <Link className={linkClasses}
-        to={to}
-        {...props}
-      >
+      <Link className={linkClasses} to={to} {...props}>
         {children}
       </Link>
     </li>

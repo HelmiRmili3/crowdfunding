@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import CustomButtonAdd from "./customButtonAdd";
 
+import CustomButtonAdd from "./customButtonAdd";
 import CardItem from "./customItem";
 import CustomText from "./customText";
 import PopupForm from "./popupForm";
+
 import { useAdmin } from "../contexts/adminContext";
 import { getRoleName, capitalizeFirstLetter } from "../utils/helper";
 
@@ -13,12 +14,9 @@ export function ActorsList({ role }) {
 
   const [isAccepted, setIsAccepted] = useState(false);
   const [closed, setClosed] = useState(false);
-  const handleToggleStatus = () => {
-    setIsAccepted(!isAccepted);
-  };
-  const close = () => {
-    setClosed(!closed);
-  };
+
+  const handleToggleStatus = () => setIsAccepted(!isAccepted);
+  const close = () => setClosed(!closed);
 
   return (
     <div className="min-h-screen flex-col flex items-center justify-center bg-gray-100 ">
