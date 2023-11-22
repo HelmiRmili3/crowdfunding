@@ -17,7 +17,11 @@ export function useDonor() {
 export const DonorProvider = ({ children }) => {
   const { actor } = useAuth();
   const [campaigns, setcampaigns] = useState([]);
-
+  const [alert, setAlert] = useState({
+    status: null,
+    message: "",
+    visible: false,
+  });
   const donateTo = async (project, amount) => {
     const donationAmount = web3.utils.toWei(amount, "ether"); // Convert 1 ETH to wei
     try {
@@ -57,7 +61,7 @@ export const DonorProvider = ({ children }) => {
   }, [getComapains]);
 
   return (
-    <DonorContext.Provider value={{ donateTo, campaigns }}>
+    <DonorContext.Provider value={{ donateTo, campaigns, alert, setAlert }}>
       {children}
     </DonorContext.Provider>
   );

@@ -18,6 +18,11 @@ export const EvaluatorProvider = ({ children }) => {
   const { actor } = useAuth();
   const [campaigns, setcampaigns] = useState([]);
   const [campaignbutton, setCampaignbutton] = useState([]);
+  const [alert, setAlert] = useState({
+    status: null,
+    message: "",
+    visible: false,
+  });
 
   const evaluate = async (id, status) => {
     if (id != null || status != null) {
@@ -61,7 +66,14 @@ export const EvaluatorProvider = ({ children }) => {
   }, [getComapains]);
   return (
     <EvaluatorContext.Provider
-      value={{ evaluate, campaigns, campaignbutton, setCampaignbutton }}
+      value={{
+        evaluate,
+        campaigns,
+        campaignbutton,
+        setCampaignbutton,
+        alert,
+        setAlert,
+      }}
     >
       {children}
     </EvaluatorContext.Provider>

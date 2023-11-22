@@ -20,7 +20,7 @@ function Card({
   return (
     <div
       key={key}
-      className="w-300 mx-auto bg-gray-50 rounded-lg overflow-hidden shadow-lg mt-5 border"
+      className="w-full mx-auto bg-gray-50 rounded-lg overflow-hidden shadow-lg mt-5 border"
       onClick={onClick}
     >
       <img src={imageUrl} alt="Project" className="w-full h-48 object-cover" />
@@ -44,7 +44,7 @@ function Card({
 
             <div className="grid grid-rows-2 justify-end">
               <div>
-                <p className="text-green-500 font-bold ">{daysLeft}</p>
+                <p className="text-green-500 font-bold ">{daysLeft >= 0 ? daysLeft : "Waiting" }</p>
               </div>
               <div>
                 <p className="text-gray-600">Days left</p>

@@ -53,7 +53,7 @@ export const AssociationProvider = ({ children }) => {
             setIsLoading(false);
           })
           .catch((error) => {
-            console.error("Error while creating actor:", error);
+            console.error("Error while creating comapin:", error);
             setIsLoading(false);
           });
       }

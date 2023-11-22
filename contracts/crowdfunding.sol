@@ -69,7 +69,7 @@ contract Crowdfunding {
         string memory _imageUrl,
         string memory _dataUrl
     ) public {
-        experedCampaigns();
+        expiredCampaigns();
         campaigns.push(
             Campaign(
                 campaignIdCounter,
@@ -91,7 +91,7 @@ contract Crowdfunding {
     }
 
     function evaluateCampaign(uint256 _id, Status _status) public {
-        experedCampaigns();
+        expiredCampaigns();
         require(_id <= campaignIdCounter, "Invalid campaign ID");
         Campaign storage campaign = campaigns[_id];
         require(
@@ -103,9 +103,7 @@ contract Crowdfunding {
     }
 
     function donate(uint256 _id) public payable {
-        experedCampaigns();
         Campaign storage campaign = campaigns[_id];
-
         require(_id <= campaignIdCounter, "Invalid campaign ID");
         require(
             campaign.status == Status.Valid,
@@ -157,8 +155,8 @@ contract Crowdfunding {
         return donations;
     }
 
-    function experedCampaigns() private {
-        for (uint256 i = 0; i <= campaignIdCounter; i++) {
+    function expiredCampaigns() internal {
+        for (uint256 i = 0; i < campaigns.length; i++) {
             if (
                 campaigns[i].endDate >= block.timestamp ||
                 campaigns[i].raisedAmount >= campaigns[i].amount

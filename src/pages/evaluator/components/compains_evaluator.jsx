@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 import CompainsGrid from "../../../components/compainsGrid";
 import { useEvaluator } from "../../../contexts/evaluatorContext";
-
+import Alert from "../../../components/alert";
 function CompainsEvaluator() {
-  const { campaigns, evaluate } = useEvaluator();
+  const { campaigns, evaluate, alert, setAlert } = useEvaluator();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [project, setProject] = useState();
 
@@ -14,10 +14,31 @@ function CompainsEvaluator() {
   };
 
   const handleReject = () => {
-    evaluate(project.id, 1n);
+    try {
+      evaluate(project.id, 1n);
+      showAlert("success", "Evaluation added successfully.");
+    } catch (error) {
+      showAlert("error", "Error evaluation . Please try again.");
+    }
+
     setModalIsOpen(!modalIsOpen);
   };
+  const showAlert = (status, message) => {
+    setAlert({
+      status: status,
+      message: message,
+      visible: true,
+    });
 
+    // Hide the alert after 2 seconds
+    setTimeout(() => {
+      setAlert({
+        status: null,
+        message: "",
+        visible: false,
+      });
+    }, 2000);
+  };
   return (
     <>
       <CompainsGrid
@@ -39,6 +60,9 @@ function CompainsEvaluator() {
           Reject
         </button>
       </CompainsGrid>
+      {alert.visible && (
+        <Alert status={alert.status} message={alert.message}></Alert>
+      )}
     </>
   );
 }

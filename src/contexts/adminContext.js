@@ -18,17 +18,25 @@ export function useAdmin() {
 }
 
 export const AdminProvider = ({ children }) => {
-  const [actors, setActors] = useState({});
-  const [Campaigns, setCampaigns] = useState([]);
   const { actor } = useAuth();
   const { address } = useWallet();
 
-  const getComapains = useCallback(() => {
+  const [actors, setActors] = useState({});
+  const [Campaigns, setCampaigns] = useState([]);
+
+  const [alert, setAlert] = useState({
+    status: null,
+    message: "",
+    visible: false,
+  });
+
+  //get all the comapains function .
+  const getComapains = useCallback(async () => {
     const options = {
       from: address,
       gas: 2000000,
     };
-    CrowdFundingContract.methods
+    await CrowdFundingContract.methods
       .getAllCampaigns()
       .call(options)
       .then((response) => {
@@ -38,6 +46,8 @@ export const AdminProvider = ({ children }) => {
         console.error("Error while creating actor:", error);
       });
   }, [address]);
+
+  // get all actors function .
   const getActors = useCallback(async () => {
     getComapains();
     const options = {
@@ -51,6 +61,7 @@ export const AdminProvider = ({ children }) => {
     }
   }, [getComapains]);
 
+  // create actor function .
   const create = useCallback(
     (data) => {
       try {
@@ -97,7 +108,9 @@ export const AdminProvider = ({ children }) => {
   }, [getComapains, getActors]); // Add getActors to the dependency array
 
   return (
-    <AdminContext.Provider value={{ actors, create, Campaigns }}>
+    <AdminContext.Provider
+      value={{ actors, create, Campaigns, alert, setAlert }}
+    >
       {children}
     </AdminContext.Provider>
   );

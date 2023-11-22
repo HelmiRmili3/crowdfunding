@@ -3,7 +3,7 @@ import InputField from "./inputFiled";
 import { useAdmin } from "../../src/contexts/adminContext";
 
 const PopupForm = ({ isOpen, onClose, role }) => {
-  const { create } = useAdmin();
+  const { create, setAlert } = useAdmin();
   const [formData, setFormData] = useState({
     imagePicker: "",
     cin: "",
@@ -17,11 +17,32 @@ const PopupForm = ({ isOpen, onClose, role }) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const showAlert = (status, message) => {
+    setAlert({
+      status: status,
+      message: message,
+      visible: true,
+    });
 
+    // Hide the alert after 2 seconds
+    setTimeout(() => {
+      setAlert({
+        status: null,
+        message: "",
+        visible: false,
+      });
+    }, 2000);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData) {
-      await create(formData);
+      try {
+        await create(formData);
+        onClose();
+        showAlert("success", "User created successfully.");
+      } catch (error) {
+        showAlert("error", "Error creating user. Please try again.");
+      }
     } else {
       console.log("data not found");
     }
@@ -82,7 +103,7 @@ const PopupForm = ({ isOpen, onClose, role }) => {
             </div>
           </form>
         </div>
-       
+
         <button
           onClick={onClose}
           className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700"
