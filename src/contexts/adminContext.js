@@ -29,7 +29,21 @@ export const AdminProvider = ({ children }) => {
     message: "",
     visible: false,
   });
-
+  const showAlert = (status, message) => {
+    setAlert({
+      status: status,
+      message: message,
+      visible: true,
+    });
+    // Hide the alert after 2 seconds
+    setTimeout(() => {
+      setAlert({
+        status: null,
+        message: "",
+        visible: false,
+      });
+    }, 2000);
+  };
   //get all the comapains function .
   const getComapains = useCallback(async () => {
     const options = {
@@ -66,7 +80,7 @@ export const AdminProvider = ({ children }) => {
     (data) => {
       try {
         const hashedPassword = SHA256(data.password).toString();
-        console.log(hashedPassword);
+        //console.log(hashedPassword);
         const options = {
           from: actor.address,
           gas: 2000000,
@@ -83,17 +97,21 @@ export const AdminProvider = ({ children }) => {
             )
             .send(options)
             .then((response) => {
+              showAlert("success", "User created successfully.");
               console.log(response);
               getActors(); // Call getActors when create is called
             })
             .catch((error) => {
+              showAlert("error", "Error creating user. Please try again.");
               console.error("Error while creating actor:", error);
             });
         } else {
           console.log("data not found");
+          showAlert("error", "Data not found error. Please try again.");
         }
       } catch (error) {
         console.error("Error in create function:", error);
+        showAlert("error", "Error in create function. Please try again.");
       }
     },
     [actor, getActors]
@@ -103,7 +121,6 @@ export const AdminProvider = ({ children }) => {
     const fetchData = async () => {
       await getActors(); // Call getActors on initial render
     };
-
     fetchData();
   }, [getComapains, getActors]); // Add getActors to the dependency array
 

@@ -4,7 +4,7 @@ import CompainsGrid from "../../../components/compainsGrid";
 import { useEvaluator } from "../../../contexts/evaluatorContext";
 import Alert from "../../../components/alert";
 function CompainsEvaluator() {
-  const { campaigns, evaluate, alert, setAlert } = useEvaluator();
+  const { campaigns, evaluate, alert } = useEvaluator();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [project, setProject] = useState();
 
@@ -16,29 +16,12 @@ function CompainsEvaluator() {
   const handleReject = () => {
     try {
       evaluate(project.id, 1n);
-      showAlert("success", "Evaluation added successfully.");
     } catch (error) {
-      showAlert("error", "Error evaluation . Please try again.");
+      console.log(error);
     }
-
     setModalIsOpen(!modalIsOpen);
   };
-  const showAlert = (status, message) => {
-    setAlert({
-      status: status,
-      message: message,
-      visible: true,
-    });
 
-    // Hide the alert after 2 seconds
-    setTimeout(() => {
-      setAlert({
-        status: null,
-        message: "",
-        visible: false,
-      });
-    }, 2000);
-  };
   return (
     <>
       <CompainsGrid

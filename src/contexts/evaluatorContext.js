@@ -23,7 +23,22 @@ export const EvaluatorProvider = ({ children }) => {
     message: "",
     visible: false,
   });
+  const showAlert = (status, message) => {
+    setAlert({
+      status: status,
+      message: message,
+      visible: true,
+    });
 
+    // Hide the alert after 2 seconds
+    setTimeout(() => {
+      setAlert({
+        status: null,
+        message: "",
+        visible: false,
+      });
+    }, 2000);
+  };
   const evaluate = async (id, status) => {
     if (id != null || status != null) {
       const options = {
@@ -34,9 +49,13 @@ export const EvaluatorProvider = ({ children }) => {
         .evaluateCampaign(id, status)
         .send(options)
         .then((response) => {
+          showAlert("success", "Evaluation added successfully.");
+
           console.log(response);
         })
         .catch((error) => {
+          showAlert("error", "Error evaluation . Please try again.");
+
           console.error("Error while creating actor:", error);
         });
     } else {

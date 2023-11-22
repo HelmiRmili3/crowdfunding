@@ -21,10 +21,25 @@ export const AssociationProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState({
     status: null,
-    message: '',
+    message: "",
     visible: false,
   });
+  const showAlert = (status, message) => {
+    setAlert({
+      status: status,
+      message: message,
+      visible: true,
+    });
 
+    // Hide the alert after 2 seconds
+    setTimeout(() => {
+      setAlert({
+        status: null,
+        message: "",
+        visible: false,
+      });
+    }, 2000);
+  };
   const createProject = async (comapin, pdfFile) => {
     setIsLoading(true);
     if (comapin) {
@@ -48,17 +63,21 @@ export const AssociationProvider = ({ children }) => {
           )
           .send(options)
           .then((response) => {
+            showAlert("success", "Campaign created successfully.");
             console.log(response);
             getComapains();
             setIsLoading(false);
           })
           .catch((error) => {
+            showAlert("error", "Error creating campaign. Please try again.");
+
             console.error("Error while creating comapin:", error);
             setIsLoading(false);
           });
       }
     } else {
-      console.log("Comapin data is empty.");
+      console.log("Comapgin data is empty.");
+      showAlert("error", "Comapign data is empty.. Please try again.");
       setIsLoading(false);
     }
   };

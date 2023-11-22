@@ -22,6 +22,23 @@ export const DonorProvider = ({ children }) => {
     message: "",
     visible: false,
   });
+
+  const showAlert = (status, message) => {
+    setAlert({
+      status: status,
+      message: message,
+      visible: true,
+    });
+
+    // Hide the alert after 2 seconds
+    setTimeout(() => {
+      setAlert({
+        status: null,
+        message: "",
+        visible: false,
+      });
+    }, 2000);
+  };
   const donateTo = async (project, amount) => {
     const donationAmount = web3.utils.toWei(amount, "ether"); // Convert 1 ETH to wei
     try {
@@ -32,12 +49,13 @@ export const DonorProvider = ({ children }) => {
           value: donationAmount, // Specify the donation amount in wei
           gas: 600000,
         });
+      showAlert("success", "Done added successfully.");
       console.log(response);
       getComapains();
     } catch (error) {
+      showAlert("error", "Error adding done. Please try again.");
       console.error("Error while donating to campaign:", error);
     }
-    //console.log("handle donate clicked");
   };
 
   const getComapains = useCallback(() => {

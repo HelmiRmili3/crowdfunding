@@ -3,7 +3,7 @@ import CompainsGrid from "../../../components/compainsGrid";
 import { useDonor } from "../../../contexts/donorContext";
 import Alert from "../../../components/alert";
 function CompainsDonor() {
-  const { campaigns, donateTo, alert, setAlert } = useDonor();
+  const { campaigns, donateTo, alert } = useDonor();
   const [project, setProject] = useState();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [amount, setAmount] = useState(0);
@@ -11,31 +11,12 @@ function CompainsDonor() {
     setModalIsOpen(!modalIsOpen);
     try {
       donateTo(project, amount);
-      showAlert("success", "Done added successfully.");
-    } catch (error) {
-      showAlert("error", "Error adding done. Please try again.");
-    }
+    } catch (error) {}
   };
   const handelAmount = (event) => {
     setAmount(event.target.value);
   };
 
-  const showAlert = (status, message) => {
-    setAlert({
-      status: status,
-      message: message,
-      visible: true,
-    });
-
-    // Hide the alert after 2 seconds
-    setTimeout(() => {
-      setAlert({
-        status: null,
-        message: "",
-        visible: false,
-      });
-    }, 2000);
-  };
   return (
     <>
       <CompainsGrid

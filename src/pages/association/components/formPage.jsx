@@ -5,7 +5,7 @@ import InputField from "../../../components/inputFiled";
 import { useAssociation } from "../../../contexts/associationContext";
 
 const FormPage = ({ isOpen, onClose }) => {
-  const { createProject, setAlert } = useAssociation();
+  const { createProject } = useAssociation();
   const [pdfFile, setPdfFile] = useState();
   const [comapin, setComapin] = useState({
     field: "",
@@ -16,22 +16,6 @@ const FormPage = ({ isOpen, onClose }) => {
     imageUrl: "",
   });
 
-  const showAlert = (status, message) => {
-    setAlert({
-      status: status,
-      message: message,
-      visible: true,
-    });
-
-    // Hide the alert after 2 seconds
-    setTimeout(() => {
-      setAlert({
-        status: null,
-        message: "",
-        visible: false,
-      });
-    }, 2000);
-  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setComapin({ ...comapin, [name]: value });
@@ -53,14 +37,12 @@ const FormPage = ({ isOpen, onClose }) => {
       amount: web3.utils.toWei(comapin.amount, "ether"),
       imageUrl: comapin.imageUrl,
     };
-
     try {
       await createProject(data, pdfFile);
-      showAlert("success", "Campaign created successfully.");
     } catch (error) {
-      showAlert("error", "Error creating campaign. Please try again.");
+      console.log(error);
     }
-     onClose();
+    onClose();
   };
 
   if (!isOpen) {
