@@ -70,7 +70,6 @@ export const AssociationProvider = ({ children }) => {
           })
           .catch((error) => {
             showAlert("error", "Error creating campaign. Please try again.");
-
             console.error("Error while creating comapin:", error);
             setIsLoading(false);
           });

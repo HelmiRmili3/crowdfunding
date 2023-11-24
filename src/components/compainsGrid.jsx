@@ -57,9 +57,9 @@ function CompainsGrid({
         </div>
       ) : (
         <>
-          <ul className="mx-auto max-w-5xl mb-10 ml-1/6 mr-1/6 flex flex-wrap -mx-4">
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-2/3">
             {campaigns.map((campaign, index) => (
-              <li key={index} className="w-1/3 px-4 mb-4">
+              <li key={index} >
                 <>
                   <Card
                     imageUrl={campaign.imageUrl}

@@ -50,8 +50,8 @@ export const EvaluatorProvider = ({ children }) => {
         .send(options)
         .then((response) => {
           showAlert("success", "Evaluation added successfully.");
-
           console.log(response);
+          getComapains();
         })
         .catch((error) => {
           showAlert("error", "Error evaluation . Please try again.");
