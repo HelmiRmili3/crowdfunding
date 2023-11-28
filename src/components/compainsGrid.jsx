@@ -57,7 +57,7 @@ function CompainsGrid({
         </div>
       ) : (
         <>
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-2/3">
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-2/3 mb-10 ">
             {campaigns.map((campaign, index) => (
               <li key={index} >
                 <>
