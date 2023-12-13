@@ -39,21 +39,24 @@ export const DonorProvider = ({ children }) => {
       });
     }, 2000);
   };
+
   const donateTo = async (project, amount) => {
     const donationAmount = web3.utils.toWei(amount, "ether"); // Convert 1 ETH to wei
+
     try {
+      //options = ;
       const response = await CrowdFundingContract.methods
         .donate(project.id)
         .send({
-          from: actor.address,
-          value: donationAmount, // Specify the donation amount in wei
-          gas: 600000,
-        });
+        from: actor.address,
+        value: donationAmount, // Specify the donation amount in wei
+        gas: 600000,
+      });
       showAlert("success", "Done added successfully.");
       console.log(response);
       getComapains();
     } catch (error) {
-      showAlert("error", "Error adding done. Please try again.");
+      showAlert("error", "Error adding The done. Please try again.");
       console.error("Error while donating to campaign:", error);
     }
   };

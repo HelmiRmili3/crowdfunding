@@ -1,6 +1,6 @@
 import React from "react";
 
-import { truncateAddress } from "../utils/helper";
+//import { truncateAddress } from "../utils/helper";
 function Card({
   key,
   imageUrl,
@@ -10,6 +10,7 @@ function Card({
   amount,
   daysLeft,
   address,
+  name,
   onClick,
 }) {
   // const [progress, setProgress] = useState(1);
@@ -68,7 +69,8 @@ function Card({
             <div className="flex-1">
               <p>Association</p>
               <p className="text-sm text-gray-700">
-                {truncateAddress(address)}
+                {/* {truncateAddress(address)} */}
+                {name}
               </p>
             </div>
           </div>

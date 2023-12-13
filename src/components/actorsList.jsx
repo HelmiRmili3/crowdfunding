@@ -33,7 +33,7 @@ export function ActorsList({ role }) {
             <li key={actor.id} className="w-full flex-1">
               <CardItem
                 avatarImageUrl={actor.imageUrl}
-                walletAddress={actor.address}
+                name={actor.name}
                 status={isAccepted ? "accepted" : "denied"}
                 onToggleStatus={handleToggleStatus}
               />

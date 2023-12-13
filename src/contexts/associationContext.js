@@ -49,29 +49,38 @@ export const AssociationProvider = ({ children }) => {
       };
       if (pdfFile) {
         console.log(pdfFile);
-        const ipfsHash = await uploadFileToPinata(pdfFile);
-        console.log(ipfsHash);
         await CrowdFundingContract.methods
-          .createCampaign(
-            comapin.field,
-            comapin.title,
-            comapin.description,
-            comapin.period,
-            comapin.amount,
-            comapin.imageUrl,
-            ipfsHash.toString()
-          )
-          .send(options)
-          .then((response) => {
-            showAlert("success", "Campaign created successfully.");
-            console.log(response);
-            getComapains();
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            showAlert("error", "Error creating campaign. Please try again.");
-            console.error("Error while creating comapin:", error);
-            setIsLoading(false);
+          .expired()
+          .call()
+          .then(async () => {
+            const ipfsHash = await uploadFileToPinata(pdfFile);
+            console.log(ipfsHash);
+            await CrowdFundingContract.methods
+              .createCampaign(
+                actor.name,
+                //comapin.field,
+                comapin.title,
+                comapin.description,
+                comapin.period,
+                comapin.amount,
+                comapin.imageUrl,
+                ipfsHash.toString()
+              )
+              .send(options)
+              .then((response) => {
+                showAlert("success", "Campaign created successfully.");
+                console.log(response);
+                getComapains();
+                setIsLoading(false);
+              })
+              .catch((error) => {
+                showAlert(
+                  "error",
+                  "Error creating campaign. Please try again."
+                );
+                console.error("Error while creating comapin:", error);
+                setIsLoading(false);
+              });
           });
       }
     } else {
@@ -105,7 +114,14 @@ export const AssociationProvider = ({ children }) => {
 
   return (
     <AssociationContext.Provider
-      value={{ createProject, campaigns, isLoading, alert, setAlert }}
+      value={{
+        createProject,
+        campaigns,
+        isLoading,
+        setIsLoading,
+        alert,
+        setAlert,
+      }}
     >
       {children}
     </AssociationContext.Provider>

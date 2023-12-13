@@ -2,6 +2,7 @@ import Web3 from "web3";
 
 export const parseActor = (response) => {
   return {
+    name : response.name,
     id: response.id,
     address: response.wallet,
     imageUrl: response.imageUrl,
@@ -38,11 +39,12 @@ export const parseCampain = (response) => {
   return {
     amount: web3.utils.fromWei(response.amount.toString(), "ether"), // Convert amount from wei to ether
     creator: response.creator,
+    name : response.name,
     dataUrl: response.dataUrl,
     description: response.description,
     donors: response.donors,
     endDate: calculateDaysDifference(response.endDate),
-    field: response.field,
+    //field: response.field,
     id: response.id,
     imageUrl: response.imageUrl,
     period: Math.ceil(Number(response.period) / (60 * 60 * 24)),
@@ -85,7 +87,7 @@ export const getRoleName = (role) => {
 };
 
 export const customFilter = (data, status) => {
-  const filterdData = data.filter((compain) => compain.status === status);
+  const filterdData = data.filter((compain) => compain.status === status || compain.status === 3n);
   return filterdData;
 };
 

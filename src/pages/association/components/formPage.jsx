@@ -3,18 +3,24 @@ import web3 from "web3";
 import InputField from "../../../components/inputFiled";
 
 import { useAssociation } from "../../../contexts/associationContext";
+import RadioButtons from "../../../components/radioButtons";
 
 const FormPage = ({ isOpen, onClose }) => {
-  const { createProject } = useAssociation();
-  const [pdfFile, setPdfFile] = useState();
-  const [comapin, setComapin] = useState({
-    field: "",
+  const initData = {
     title: "",
     description: "",
     period: 0,
     amount: 0,
     imageUrl: "",
-  });
+  };
+  const { createProject, setIsLoading } = useAssociation();
+  const [pdfFile, setPdfFile] = useState();
+  const [comapin, setComapin] = useState(initData);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [value, setValue] = useState("");
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,13 +30,22 @@ const FormPage = ({ isOpen, onClose }) => {
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setPdfFile(selectedFile);
-    //console.log(selectedFile);
+    setValue(selectedFile.name);
+    // if (selectedFile) {
+    //   // Set the selected file
+
+    //   // Set the file name in the input field
+    //   const fileNameInput = document.getElementById("pdfFile");
+    //   if (fileNameInput) {
+    //     fileNameInput.value = ;
+    //   }
+    // }
+    console.log(selectedFile);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      field: comapin.field,
       title: comapin.title,
       description: comapin.description,
       period: comapin.period * 86400,
@@ -38,9 +53,12 @@ const FormPage = ({ isOpen, onClose }) => {
       imageUrl: comapin.imageUrl,
     };
     try {
-      await createProject(data, pdfFile);
+      await createProject(data, pdfFile).then((e) => {
+        setComapin(initData);
+      });
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
     onClose();
   };
@@ -55,13 +73,6 @@ const FormPage = ({ isOpen, onClose }) => {
         <h2 className="text-lg font-semibold mb-4">Form</h2>
         <div className="max-h-80 overflow-y-auto">
           <form onSubmit={handleSubmit}>
-            <InputField
-              label="Field"
-              name="field"
-              type="text"
-              value={comapin.field}
-              onChange={handleInputChange}
-            />
             <InputField
               label="Title"
               name="title"
@@ -83,6 +94,10 @@ const FormPage = ({ isOpen, onClose }) => {
               value={comapin.period}
               onChange={handleInputChange}
             />
+            {/* <RadioButtons
+              selectedOption={selectedOption}
+              handleOptionChange={handleOptionChange}
+            /> */}
             <InputField
               label="Amount (eth)"
               name="amount"

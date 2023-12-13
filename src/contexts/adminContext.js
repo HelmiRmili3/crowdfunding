@@ -7,9 +7,10 @@ import React, {
 } from "react";
 import { SHA256 } from "crypto-js";
 import { AuthContract } from "../utils/contracts";
+import { CrowdFundingContract } from "../utils/contracts";
+
 import { useAuth } from "./authContext";
 import { parseActors, parseCampains } from "../utils/helper";
-import { CrowdFundingContract } from "../utils/contracts";
 import { useWallet } from "./walletContext";
 const AdminContext = createContext();
 
@@ -51,13 +52,18 @@ export const AdminProvider = ({ children }) => {
       gas: 2000000,
     };
     await CrowdFundingContract.methods
-      .getAllCampaigns()
-      .call(options)
-      .then((response) => {
-        setCampaigns(parseCampains(response));
-      })
-      .catch((error) => {
-        console.error("Error while creating actor:", error);
+      .expired()
+      .call()
+      .then(async () => {
+        await CrowdFundingContract.methods
+          .getAllCampaigns()
+          .call(options)
+          .then((response) => {
+            setCampaigns(parseCampains(response));
+          })
+          .catch((error) => {
+            console.error("Error while creating actor:", error);
+          });
       });
   }, [address]);
 
@@ -68,8 +74,15 @@ export const AdminProvider = ({ children }) => {
       gas: 20000000,
     };
     try {
-      const response = await AuthContract.methods.getAllActors().call(options);
-      setActors(parseActors(response));
+      await CrowdFundingContract.methods
+        .expired()
+        .call()
+        .then(async () => {
+          const response = await AuthContract.methods
+            .getAllActors()
+            .call(options);
+          setActors(parseActors(response));
+        });
     } catch (error) {
       console.error("Error while getting actors:", error);
     }
@@ -80,30 +93,36 @@ export const AdminProvider = ({ children }) => {
     (data) => {
       try {
         const hashedPassword = SHA256(data.password).toString();
-        //console.log(hashedPassword);
+        console.log(hashedPassword);
         const options = {
           from: actor.address,
           gas: 2000000,
         };
         if (data) {
-          AuthContract.methods
-            .createActor(
-              data.metamaskWallet,
-              data.imagePicker,
-              data.role,
-              data.cin,
-              data.description,
-              hashedPassword
-            )
-            .send(options)
-            .then((response) => {
-              showAlert("success", "User created successfully.");
-              console.log(response);
-              getActors(); // Call getActors when create is called
-            })
-            .catch((error) => {
-              showAlert("error", "Error creating user. Please try again.");
-              console.error("Error while creating actor:", error);
+          CrowdFundingContract.methods
+            .expired()
+            .call()
+            .then(async () => {
+              await AuthContract.methods
+                .createActor(
+                  data.name,
+                  data.metamaskWallet,
+                  data.imagePicker,
+                  data.role,
+                  data.cin,
+                  data.description,
+                  hashedPassword
+                )
+                .send(options)
+                .then((response) => {
+                  showAlert("success", "User created successfully.");
+                  console.log(response);
+                  getActors(); // Call getActors when create is called
+                })
+                .catch((error) => {
+                  showAlert("error", "Error creating user. Please try again.");
+                  console.error("Error while creating actor:", error);
+                });
             });
         } else {
           console.log("data not found");

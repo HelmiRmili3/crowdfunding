@@ -1,13 +1,13 @@
 import React from "react";
 import OpenPdfButton from "./pdfPage";
 const Compain = ({
+  name,
   amount,
   creator,
   dataUrl,
   description,
   donors,
   endDate,
-  filed,
   id,
   imageUrl,
   period,
@@ -46,9 +46,9 @@ const Compain = ({
 
             <div className="px-4 py-2">
               <div className="grid grid-cols-1 gap-2">
-                <div className="text-gray-600">
+                {/* <div className="text-gray-600">
                   <p>{filed}</p>
-                </div>
+                </div> */}
 
                 <div className="font-bold">
                   <p>{title}</p>
@@ -104,7 +104,7 @@ const Compain = ({
 
                   <div className="flex-1">
                     <p>Association</p>
-                    <p className="text-sm text-gray-700">{creator}</p>
+                    <p className="text-sm text-gray-700">{name}</p>
                   </div>
                   {children}
                 </div>

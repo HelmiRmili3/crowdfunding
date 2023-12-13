@@ -2,7 +2,7 @@ import React from "react";
 
 const CardItem = ({
   avatarImageUrl,
-  walletAddress,
+  name,
   status,
   onToggleStatus,
 }) => {
@@ -19,7 +19,7 @@ const CardItem = ({
           />
         </div>
         <div className="flex-grow">
-          <p className="text-xl font-semibold">{walletAddress}</p>
+          <p className="text-xl font-semibold">{name}</p>
         </div>
         <div>
           {/* <label className="flex items-center cursor-pointer">

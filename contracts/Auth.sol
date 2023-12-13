@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 contract Auth {
     enum Role {
@@ -11,6 +11,7 @@ contract Auth {
     }
 
     struct Actor {
+        string name;
         uint256 id;
         address wallet;
         string imageUrl;
@@ -42,6 +43,7 @@ contract Auth {
     }
 
     function createActor(
+        string memory _name,
         address _address,
         string memory _imageUrl,
         Role _role,
@@ -56,6 +58,7 @@ contract Auth {
 
         actors.push(
             Actor(
+                _name,
                 actorIdCounter,
                 _address,
                 _imageUrl,
@@ -83,6 +86,7 @@ contract Auth {
     function addAdmin(address _address) public {
         actors.push(
             Actor(
+                "admin",
                 actorIdCounter,
                 _address,
                 "https://cdn-icons-png.flaticon.com/128/6024/6024190.png",
@@ -108,6 +112,7 @@ contract Auth {
         public
         view
         returns (
+            string memory name,
             uint256 id,
             string memory imageUrl,
             Role role,
@@ -120,6 +125,7 @@ contract Auth {
         for (uint256 i = 0; i < actors.length; i++) {
             if (actors[i].wallet == _address) {
                 return (
+                    actors[i].name,
                     actors[i].id,
                     actors[i].imageUrl,
                     actors[i].role,
@@ -132,7 +138,7 @@ contract Auth {
         }
 
         // Return default values if the address is not found
-        return (0, "", Role.NotFound, "", "", address(0), "");
+        return ("",0, "", Role.NotFound, "", "", address(0), "");
     }
 
     function getActorRole(address _address) public view returns (Role) {
@@ -160,6 +166,7 @@ contract Auth {
 
         for (uint256 i = 0; i < actors.length; i++) {
             data[i] = Actor(
+                actors[i].name,
                 actors[i].id,
                 actors[i].wallet,
                 actors[i].imageUrl,

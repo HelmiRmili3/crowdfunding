@@ -59,9 +59,10 @@ function CompainsGrid({
         <>
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-2/3 mb-10 ">
             {campaigns.map((campaign, index) => (
-              <li key={index} >
+              <li key={index}>
                 <>
                   <Card
+                    name={campaign.name}
                     imageUrl={campaign.imageUrl}
                     domain={campaign.domain}
                     title={campaign.title}
@@ -80,6 +81,7 @@ function CompainsGrid({
         </>
       )}
       <Compain
+        name={campaign.name}
         amount={campaign.amount}
         creator={campaign.creator}
         dataUrl={campaign.dataUrl}

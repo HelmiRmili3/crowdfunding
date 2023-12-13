@@ -1,21 +1,40 @@
 import React, { useState } from "react";
+import QrScanner from "react-qr-scanner";
 import InputField from "./inputFiled";
 import { useAdmin } from "../../src/contexts/adminContext";
+import ClickableButtonTextField from "./qrCodeButton";
 
 const PopupForm = ({ isOpen, onClose, role }) => {
   const { create } = useAdmin();
-  const [formData, setFormData] = useState({
+  const initData = {
+    name: "",
     imagePicker: "",
     cin: "",
     role: role,
     password: "",
     description: "",
     metamaskWallet: "",
-  });
+  };
+  const [formData, setFormData] = useState(initData);
+  const [openScanner, setOpenScanner] = useState(false);
 
+  const handleScan = (data) => {
+    if (data) {
+      setFormData({ ...formData, cin: data.text });
+    }
+  };
+
+  const handleError = (error) => {
+    console.error(error);
+  };
   const handleInputChange = (e) => {
+    e.preventDefault();
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+  const handerScanner = (e) => {
+    e.preventDefault();
+    setOpenScanner(!openScanner);
   };
 
   const handleSubmit = async (e) => {
@@ -23,8 +42,11 @@ const PopupForm = ({ isOpen, onClose, role }) => {
     if (formData) {
       try {
         await create(formData);
+        setFormData(initData);
         onClose();
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       console.log("data not found");
     }
@@ -41,23 +63,35 @@ const PopupForm = ({ isOpen, onClose, role }) => {
         <div className="max-h-80 overflow-y-auto">
           <form onSubmit={handleSubmit}>
             <InputField
-              label="Image Picker"
-              name="imagePicker"
+              label="Name"
+              name="name"
               type="text"
-              value={formData.imagePicker}
+              placeholder="Full Name"
+              value={formData.name}
               onChange={handleInputChange}
             />
             <InputField
-              label="Cin Number"
+              label="Image Picker"
+              name="imagePicker"
+              type="text"
+              placeholder="Image URL"
+              value={formData.imagePicker}
+              onChange={handleInputChange}
+            />
+            <ClickableButtonTextField
+              label="Cin/Matricule"
               name="cin"
               type="text"
               value={formData.cin}
+              placeholder="Cin/Matricule"
               onChange={handleInputChange}
+              onClick={handerScanner}
             />
             <InputField
               label="Password"
               name="password"
               type="password"
+              placeholder="password"
               value={formData.password}
               onChange={handleInputChange}
             />
@@ -65,6 +99,7 @@ const PopupForm = ({ isOpen, onClose, role }) => {
               label="Description"
               name="description"
               type="text"
+              placeholder="Description of you"
               value={formData.description}
               onChange={handleInputChange}
             />
@@ -72,6 +107,7 @@ const PopupForm = ({ isOpen, onClose, role }) => {
               label="Metamask Wallet"
               name="metamaskWallet"
               type="text"
+              placeholder="Votre metamask wallet"
               value={formData.metamaskWallet}
               onChange={handleInputChange}
             />
@@ -84,8 +120,16 @@ const PopupForm = ({ isOpen, onClose, role }) => {
               </button>
             </div>
           </form>
+          {openScanner && (
+            <QrScanner
+              delay={300}
+              onError={handleError}
+              onScan={handleScan}
+              style={{ width: "0%" }}
+              facingMode="environment" // Use the front camera if available
+            />
+          )}
         </div>
-
         <button
           onClick={onClose}
           className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700"

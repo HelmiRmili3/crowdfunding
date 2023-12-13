@@ -48,10 +48,11 @@ export const EvaluatorProvider = ({ children }) => {
       await CrowdFundingContract.methods
         .evaluateCampaign(id, status)
         .send(options)
-        .then((response) => {
+        .then(async (response) => {
           showAlert("success", "Evaluation added successfully.");
           console.log(response);
           getComapains();
+          await CrowdFundingContract.methods.expired().call();
         })
         .catch((error) => {
           showAlert("error", "Error evaluation . Please try again.");
@@ -63,20 +64,25 @@ export const EvaluatorProvider = ({ children }) => {
     }
   };
 
-  const getComapains = useCallback(() => {
+  const getComapains = useCallback(async () => {
     const options = {
       from: actor.address,
       gas: 2000000,
     };
-    CrowdFundingContract.methods
-      .getAllCampaigns()
-      .call(options)
-      .then((response) => {
-        setcampaigns(customFilter(parseCampains(response), 0n));
-        //console.log(campaigns);
-      })
-      .catch((error) => {
-        console.error("Error while creating actor:", error);
+    await CrowdFundingContract.methods
+      .expired()
+      .call()
+      .then(async () => {
+        await CrowdFundingContract.methods
+          .getAllCampaigns()
+          .call(options)
+          .then((response) => {
+            setcampaigns(customFilter(parseCampains(response), 0n));
+            //console.log(campaigns);
+          })
+          .catch((error) => {
+            console.error("Error while creating actor:", error);
+          });
       });
   }, [actor.address]);
 
