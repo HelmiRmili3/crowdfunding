@@ -70,7 +70,7 @@ function CompainsGrid({
                     raisedAmount={campaign.raisedAmount.toString()}
                     amount={campaign.amount.toString()}
                     daysLeft={campaign.endDate.toString()}
-                    address={campaign.creator}
+                    status={campaign.status}
                     children={children}
                     onClick={() => handleCard(campaign)}
                   />

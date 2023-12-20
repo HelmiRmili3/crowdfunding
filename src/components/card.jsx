@@ -1,6 +1,4 @@
 import React from "react";
-
-//import { truncateAddress } from "../utils/helper";
 function Card({
   key,
   imageUrl,
@@ -9,15 +7,24 @@ function Card({
   raisedAmount,
   amount,
   daysLeft,
-  address,
+  status,
   name,
   onClick,
 }) {
-  // const [progress, setProgress] = useState(1);
-  // useEffect(() => {
-  //   setProgress(Math.round(amount - raisedAmount) + 1);
-  // }, [amount, raisedAmount]);
-
+  function Status(status) {
+    switch (status) {
+      case 0n:
+        return "Waiting";
+      case 1n:
+        return "Invalid";
+      case 2n:
+        return daysLeft;
+      case 3n:
+        return "Done";
+      default:
+        break;
+    }
+  }
   return (
     <div
       key={key}
@@ -36,7 +43,15 @@ function Card({
           <div className="grid grid-cols-2 gap-2">
             <div className="grid grid-rows-2">
               <div>
-                <p className="text-green-500 font-bold ">{raisedAmount} ETH</p>
+                <p
+                  className={
+                    Status(status) === "Done"
+                      ? "text-red-500 font-bold "
+                      : "text-green-500 font-bold "
+                  }
+                >
+                  {raisedAmount} ETH
+                </p>
               </div>
               <div>
                 <p className="text-gray-600"> Raised of {amount}</p>
@@ -45,8 +60,14 @@ function Card({
 
             <div className="grid grid-rows-2 justify-end">
               <div>
-                <p className="text-green-500 font-bold ">
-                  {daysLeft >= 0 ? daysLeft : "Waiting"}
+                <p
+                  className={
+                    Status(status) === "Done"
+                      ? "text-red-500 font-bold "
+                      : "text-green-500 font-bold "
+                  }
+                >
+                  {Status(status)}
                 </p>
               </div>
               <div>
@@ -68,18 +89,20 @@ function Card({
 
             <div className="flex-1">
               <p>Association</p>
-              <p className="text-sm text-gray-700">
-                {/* {truncateAddress(address)} */}
-                {name}
-              </p>
+              <p className="text-sm text-gray-700">{name}</p>
             </div>
           </div>
         </div>
       </div>
       <div className="mt-0">
         <div className="w-full h-1 bg-gray-200">
-          {/* <div className={`w-${progress} h-1 bg-blue-500`}></div> */}
-          <div className={`w-full h-1 bg-blue-500`}></div>
+          <div
+            className={
+              Status(status) === "Done"
+                ? "w-full h-1 bg-red-500"
+                : "w-full h-1 bg-green-500"
+            }
+          ></div>
         </div>
       </div>
     </div>

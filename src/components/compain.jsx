@@ -73,7 +73,7 @@ const Compain = ({
                   <div className="grid grid-rows-2 justify-end">
                     <div>
                       <p className="text-green-500 font-bold ">
-                        {endDate >= 0 ? endDate : "Waiting"}
+                        {status}
                       </p>
                     </div>
                     <div>

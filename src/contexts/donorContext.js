@@ -44,14 +44,13 @@ export const DonorProvider = ({ children }) => {
     const donationAmount = web3.utils.toWei(amount, "ether"); // Convert 1 ETH to wei
 
     try {
-      //options = ;
       const response = await CrowdFundingContract.methods
         .donate(project.id)
         .send({
-        from: actor.address,
-        value: donationAmount, // Specify the donation amount in wei
-        gas: 600000,
-      });
+          from: actor.address,
+          value: donationAmount, // Specify the donation amount in wei
+          gas: 600000,
+        });
       showAlert("success", "Done added successfully.");
       console.log(response);
       getComapains();

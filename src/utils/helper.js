@@ -87,7 +87,7 @@ export const getRoleName = (role) => {
 };
 
 export const customFilter = (data, status) => {
-  const filterdData = data.filter((compain) => compain.status === status || compain.status === 3n);
+  const filterdData = data.filter((compain) => compain.status === status && compain.status === 3n);
   return filterdData;
 };
 

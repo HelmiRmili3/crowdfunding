@@ -1,9 +1,8 @@
 import axios from "axios";
 
 // Replace with your own API keys
-const API_KEY = "3cc4aa0f02351f3dea52";
-const API_SECRET =
-  "ec0b90ec61136f7b8e3e704f37746703a642bf520eed00a8002a4f1dd89d024c";
+const API_KEY = process.env.REACT_APP_API_KEY;
+const API_SECRET = process.env.REACT_APP_API_SECRET;
 
 // Function to upload a file to Pinata
 export const uploadFileToPinata = async (file) => {
